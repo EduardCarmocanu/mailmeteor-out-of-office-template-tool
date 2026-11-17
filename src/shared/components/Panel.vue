@@ -18,6 +18,6 @@ const { variant = 'default' } = defineProps<{ variant?: 'default' | 'secondary' 
   padding: 24px;
 }
 .panel--secondary {
-  background-color: #e6e8ef;
+  background-color: #f4f5f8;
 }
 </style>

@@ -8,15 +8,17 @@ const id = useId()
 </script>
 
 <template>
-  <InputLabel :for="id">Tone</InputLabel>
-  <SwitchBar
-    name="tone selector"
-    v-model="tone"
-    :options="[
-      { label: 'Formal', value: 'formal' },
-      { label: 'Friendly', value: 'friendly' },
-      { label: 'Funny', value: 'funny' },
-      { label: 'Short', value: 'short' },
-    ]"
-  />
+  <div class="tone-selector">
+    <InputLabel :for="id">Tone</InputLabel>
+    <SwitchBar
+      name="tone selector"
+      v-model="tone"
+      :options="[
+        { label: 'Formal', value: 'formal' },
+        { label: 'Friendly', value: 'friendly' },
+        { label: 'Funny', value: 'funny' },
+        { label: 'Short', value: 'short' },
+      ]"
+    />
+  </div>
 </template>
