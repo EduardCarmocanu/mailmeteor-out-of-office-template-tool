@@ -18,11 +18,13 @@ const body = ref(
 
 <template>
   <div class="template-editor-page">
-    <Panel>
-      <div class="template-editor-page__main-configuration">
-        <TemplateConfigurator></TemplateConfigurator>
-        <MessageTemplateEditor v-model:subject="subject" :body="body" />
-      </div>
+    <Panel class="template-editor-page__main-configuration">
+      <TemplateConfigurator class="template-editor-page__column" />
+      <MessageTemplateEditor
+        v-model:subject="subject"
+        class="template-editor-page__column"
+        :body="body"
+      />
     </Panel>
     <div class="template-editor-page__pre-configurations">
       <Panel class="template-editor-page__preset" variant="secondary">
@@ -48,6 +50,11 @@ const body = ref(
   flex-flow: row;
   justify-content: space-between;
   gap: 24px;
+}
+
+.template-editor-page__column {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .template-editor-page__pre-configurations {
