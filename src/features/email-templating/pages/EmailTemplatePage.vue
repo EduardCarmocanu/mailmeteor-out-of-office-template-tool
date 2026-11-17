@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Panel from '../../../shared/components/Panel.vue'
+import Panel from '../../../shared/components/layout/Panel.vue'
 import MessageTemplateEditor from '../components/MessageTemplateEditor.vue'
 import TemplateConfigurator from '../components/TemplateConfigurator.vue'
 import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'

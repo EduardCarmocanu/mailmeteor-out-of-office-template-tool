@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import { defineComponent, h, ref } from 'vue'
 import MessageSubjectEditor from './MessageSubjectEditor.vue'
-import CopyButton from '../../../shared/components/CopyButton.vue'
+import CopyButton from '../../../shared/components/buttons/CopyButton.vue'
 
 const writeText = vi.fn<(text: string) => Promise<void>>()
 

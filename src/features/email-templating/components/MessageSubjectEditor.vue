@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useId } from 'vue'
-import CopyButton from '../../../shared/components/CopyButton.vue'
+import CopyButton from '../../../shared/components/buttons/CopyButton.vue'
 
 const subject = defineModel<string>({ default: '' })
 

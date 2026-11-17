@@ -2,7 +2,7 @@
 import { computed, useId, useTemplateRef } from 'vue'
 import CalendarIcon from '@/assets/icons/calendar.svg?component'
 import InputLabel from './InputLabel.vue'
-import { formatDisplayDate, parseIsoDate, toIsoDate } from '../utils/date'
+import { formatDisplayDate, parseIsoDate, toIsoDate } from '../../utils/date.ts'
 
 const props = defineProps<{
   label: string

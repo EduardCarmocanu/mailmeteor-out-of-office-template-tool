@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useId } from 'vue'
-import InputLabel from '../../../shared/components/InputLabel.vue'
-import PillButton from '../../../shared/components/PillButton.vue'
+import InputLabel from '../../../shared/components/forms/InputLabel.vue'
+import PillButton from '../../../shared/components/buttons/PillButton.vue'
 import type { Reason } from '../models/Reason.model.ts'
 
 const reason = defineModel<Reason>({ default: 'vacation' })

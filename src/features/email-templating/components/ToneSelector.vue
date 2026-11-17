@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useId } from 'vue'
-import SwitchBar, { type SwitchBarOption } from '../../../shared/components/SwitchBar.vue'
-import InputLabel from '../../../shared/components/InputLabel.vue'
+import SwitchBar, { type SwitchBarOption } from '../../../shared/components/layout/SwitchBar.vue'
+import InputLabel from '../../../shared/components/forms/InputLabel.vue'
 import type { Tone } from '../models/Tone.model.ts'
 
 const tone = defineModel<Tone>({ default: 'formal' })

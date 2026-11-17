@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import TextInput from '../../../shared/components/TextInput.vue'
-import EmailInput from '../../../shared/components/EmailInput.vue'
-import DateInput from '../../../shared/components/DateInput.vue'
-import CollapsibleSection from '../../../shared/components/CollapsibleSection.vue'
+import TextInput from '../../../shared/components/forms/TextInput.vue'
+import EmailInput from '../../../shared/components/forms/EmailInput.vue'
+import DateInput from '../../../shared/components/forms/DateInput.vue'
+import CollapsibleSection from '../../../shared/components/layout/CollapsibleSection.vue'
 import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
 import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'
