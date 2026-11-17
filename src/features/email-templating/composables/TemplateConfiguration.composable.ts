@@ -1,15 +1,7 @@
 import { ref, watch } from 'vue'
 import { today as getToday } from '../../../shared/utils/date.ts'
-
-export type Tone = 'formal' | 'friendly' | 'funny' | 'short'
-
-export type Reason =
-  | 'vacation'
-  | 'holidays'
-  | 'business-trip'
-  | 'conference'
-  | 'sick-leave'
-  | 'parental-leave'
+import type { Tone } from '../models/Tone.model.ts'
+import type { Reason } from '../models/Reason.model.ts'
 
 export interface TemplateConfiguration {
   name: string

@@ -2,7 +2,7 @@
 import { useId } from 'vue'
 import SwitchBar, { type SwitchBarOption } from '../../../shared/components/SwitchBar.vue'
 import InputLabel from '../../../shared/components/InputLabel.vue'
-import type { Tone } from '../composables/TemplateConfiguration.composable.ts'
+import type { Tone } from '../models/Tone.model.ts'
 
 const tone = defineModel<Tone>({ default: 'formal' })
 const id = useId()
