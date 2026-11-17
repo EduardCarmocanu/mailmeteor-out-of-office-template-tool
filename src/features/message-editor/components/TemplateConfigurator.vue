@@ -1,23 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import TextInput from '../../../shared/components/TextInput.vue'
 import EmailInput from '../../../shared/components/EmailInput.vue'
+import DateInput from '../../../shared/components/DateInput.vue'
 import CollapsibleSection from '../../../shared/components/CollapsibleSection.vue'
 import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
+import { todayIso } from '../../../shared/utils/date'
 
 const form = ref({
   name: '',
+  firstDayAway: '',
+  backOn: '',
   tone: 'formal',
   reason: 'vacation',
   backupName: '',
   backupEmail: '',
 })
+
+const today = todayIso()
+// "Back on" can't be before "First day away"; until that is set, it can't be in the past.
+const backOnMin = computed(() => form.value.firstDayAway || today)
 </script>
 
 <template>
   <div>
     <TextInput v-model="form.name" :label="'Your Name'" :placeholder="'e.g. Jordan Lee'" />
+    <div class="template-configurator__row">
+      <DateInput v-model="form.firstDayAway" label="First day away" :min="today" :max="null" />
+      <DateInput v-model="form.backOn" label="Back on" :min="backOnMin" :max="null" />
+    </div>
     <ToneSelector v-model="form.tone" />
     <CollapsibleSection title="Advanced options" subtitle="Reason, backup contact">
       <ReasonSelector v-model="form.reason" />
@@ -32,4 +44,10 @@ const form = ref({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.template-configurator__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+</style>
