@@ -31,8 +31,8 @@ withDefaults(
   border-radius: 999px;
   background: #fff;
   font: inherit;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
   color: #2b3152;
   white-space: nowrap;
   cursor: pointer;
@@ -59,7 +59,7 @@ withDefaults(
   height: 0;
   overflow: hidden;
   visibility: hidden;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   user-select: none;
   pointer-events: none;
 }
@@ -71,7 +71,7 @@ withDefaults(
 .pill-button--selected {
   border-color: #6b72f2;
   background: #eceefd;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #1f2340;
 }
 

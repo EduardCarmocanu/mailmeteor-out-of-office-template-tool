@@ -73,16 +73,16 @@ const toggle = () => {
 
 .collapsible-section__title {
   flex-shrink: 0;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
   color: #1f2340;
 }
 
 .collapsible-section__subtitle {
   min-width: 0;
   overflow: hidden;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
   color: #7a7f9e;
   text-overflow: ellipsis;
   white-space: nowrap;

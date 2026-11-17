@@ -20,13 +20,13 @@ defineProps<{
 .input-label {
   display: block;
   margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
   line-height: 1.4;
   color: #3b4262;
 }
 
 .input-label__optional {
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
 }
 </style>

@@ -64,8 +64,8 @@ const subjectId = useId()
   border-radius: 4px;
   background: transparent;
   font: inherit;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
   color: #1f2340;
   outline: none;
   transition:

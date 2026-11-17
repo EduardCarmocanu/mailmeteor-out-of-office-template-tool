@@ -63,8 +63,8 @@ const groupName = useId()
   border: 1px solid transparent;
   border-radius: 6px;
   font: inherit;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
   color: #5c6185;
   cursor: pointer;
   user-select: none;
@@ -74,7 +74,7 @@ const groupName = useId()
   border-color: #e6e8ef;
   background: #fff;
   box-shadow: 0 1px 2px rgba(43, 49, 82, 0.06);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #1f2340;
 }
 
