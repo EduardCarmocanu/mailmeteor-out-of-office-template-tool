@@ -4,12 +4,15 @@ import CheckIcon from '@/assets/icons/check.svg?component'
 import CopyIcon from '@/assets/icons/copy.svg?component'
 import CrossIcon from '@/assets/icons/cross.svg?component'
 
-const { text, label = 'Copy' } = defineProps<{
-  /** Text written to the clipboard on click. */
-  text: string
-  /** Accessible name of the button before copying. */
-  label?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    /** Text written to the clipboard on click. */
+    text: string
+    /** Accessible name of the button before copying. */
+    label?: string
+  }>(),
+  { label: 'Copy' },
+)
 
 type CopyStatus = 'idle' | 'copied' | 'error'
 
@@ -45,7 +48,7 @@ const showFeedback = (next: Exclude<CopyStatus, 'idle'>) => {
 
 const copy = async () => {
   try {
-    await navigator.clipboard.writeText(text)
+    await navigator.clipboard.writeText(props.text)
     showFeedback('copied')
   } catch {
     showFeedback('error')
@@ -54,7 +57,7 @@ const copy = async () => {
 
 // Feedback only applies to the text that was (or failed to be) copied.
 watch(
-  () => text,
+  () => props.text,
   () => {
     clearResetTimer()
     status.value = 'idle'

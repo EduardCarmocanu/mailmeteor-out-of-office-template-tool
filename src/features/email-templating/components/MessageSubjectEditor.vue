@@ -41,7 +41,6 @@ const subjectId = useId()
 }
 
 .message-subject__field {
-  box-sizing: border-box;
   flex: 1;
   min-width: 0;
   height: 32px;

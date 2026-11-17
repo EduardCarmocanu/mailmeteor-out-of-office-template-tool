@@ -3,20 +3,23 @@ import { computed } from 'vue'
 
 // `onClick` is declared as a prop (rather than left as a fallthrough listener)
 // so the panel knows when it is clickable and can style itself accordingly.
-const { variant = 'default', onClick } = defineProps<{
-  variant?: 'default' | 'secondary'
-  onClick?: (event: MouseEvent | KeyboardEvent) => void
-}>()
+const props = withDefaults(
+  defineProps<{
+    variant?: 'primary' | 'secondary'
+    onClick?: (event: MouseEvent | KeyboardEvent) => void
+  }>(),
+  { variant: 'primary' },
+)
 
-const clickable = computed(() => !!onClick)
+const clickable = computed(() => !!props.onClick)
 
 // Enter/Space activate the panel like a button, but only when the panel itself has
 // focus, so typing in a nested input is never intercepted.
 function onKeydown(event: KeyboardEvent) {
-  if (!onClick || event.target !== event.currentTarget) return
+  if (!props.onClick || event.target !== event.currentTarget) return
   if (event.key !== 'Enter' && event.key !== ' ') return
   event.preventDefault()
-  onClick(event)
+  props.onClick(event)
 }
 </script>
 
@@ -37,7 +40,6 @@ function onKeydown(event: KeyboardEvent) {
 
 <style scoped>
 .panel {
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
   border: 1px solid #e6e8ef;

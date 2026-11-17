@@ -10,7 +10,7 @@ defineProps<{
 
 const model = defineModel<string>({ default: '' })
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const id = useId()
 const errorId = useId()
@@ -25,7 +25,7 @@ const validate = () => {
   lastValidatedValue = model.value
 
   const value = model.value.trim()
-  showError.value = value !== '' && !EMAIL_RE.test(value)
+  showError.value = value !== '' && !EMAIL_REGEX.test(value)
 }
 </script>
 
@@ -52,7 +52,6 @@ const validate = () => {
 
 <style scoped>
 .email-input__field {
-  box-sizing: border-box;
   width: 100%;
   height: 44px;
   padding: 0 14px;

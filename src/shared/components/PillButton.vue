@@ -21,7 +21,6 @@ withDefaults(
 
 <style scoped>
 .pill-button {
-  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;

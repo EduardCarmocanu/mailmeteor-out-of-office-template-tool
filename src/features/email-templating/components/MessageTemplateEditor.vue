@@ -35,7 +35,6 @@ const wordCount = computed(() => body.value.trim().split(/\s+/).filter(Boolean).
 }
 
 .message-template-editor__box {
-  box-sizing: border-box;
   display: flex;
   flex: 1;
   flex-direction: column;

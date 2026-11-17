@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, useId, useTemplateRef, watch } from 'vue'
+import { computed, useId, useTemplateRef } from 'vue'
 import CalendarIcon from '@/assets/icons/calendar.svg?component'
 import InputLabel from './InputLabel.vue'
-import { formatDisplayDate, parseIsoDate, startOfDay, toIsoDate } from '../utils/date'
+import { formatDisplayDate, parseIsoDate, toIsoDate } from '../utils/date'
 
 const props = defineProps<{
   label: string
@@ -12,72 +12,19 @@ const props = defineProps<{
   max: Date | null
 }>()
 
-/** A valid, in-bounds day, or `null` when empty or out of bounds. */
+/** The picked day, or `null` when empty. */
 const model = defineModel<Date | null>({ default: null })
 
 const id = useId()
-const errorId = useId()
 const nativeInput = useTemplateRef<HTMLInputElement>('native')
 
-/** The picked day, kept even when out of bounds so it stays visible. */
-const value = ref<Date | null>(model.value)
-const error = ref<string | null>(null)
-
-const displayValue = computed(() => formatDisplayDate(value.value))
+const displayValue = computed(() => formatDisplayDate(model.value))
 
 // The native date input only speaks `YYYY-MM-DD`; convert at that boundary only.
-const nativeValue = computed(() => (value.value ? toIsoDate(value.value) : ''))
+// Its `min`/`max` keep out-of-range days from being picked in the calendar.
+const nativeValue = computed(() => (model.value ? toIsoDate(model.value) : ''))
 const nativeMin = computed(() => (props.min ? toIsoDate(props.min) : undefined))
 const nativeMax = computed(() => (props.max ? toIsoDate(props.max) : undefined))
-
-/** All bound errors for a picked day, most important first. */
-const getErrors = (date: Date): string[] => {
-  const day = startOfDay(date).getTime()
-  const errors: string[] = []
-  if (props.min !== null && day < startOfDay(props.min).getTime()) {
-    errors.push(`Date must be on or after ${formatDisplayDate(props.min)}.`)
-  }
-  if (props.max !== null && day > startOfDay(props.max).getTime()) {
-    errors.push(`Date must be on or before ${formatDisplayDate(props.max)}.`)
-  }
-  return errors
-}
-
-// Last value written to the model by this component, to tell our own updates
-// apart from changes made by the parent.
-let committed = model.value
-const commit = (date: Date | null) => {
-  committed = date
-  model.value = date
-}
-
-// Validation runs after a calendar pick, when the parent sets the model,
-// and when the bounds change.
-const validate = () => {
-  if (value.value === null) {
-    error.value = null
-    commit(null)
-    return
-  }
-
-  error.value = getErrors(value.value)[0] ?? null
-  commit(error.value === null ? value.value : null)
-}
-
-watch(model, (next) => {
-  if (next === committed) return
-  committed = next
-  value.value = next
-  validate()
-})
-
-// e.g. "Back on" must re-check itself when "First day away" moves.
-watch(
-  () => [props.min, props.max],
-  () => {
-    if (value.value !== null) validate()
-  },
-)
 
 const openPicker = () => {
   const input = nativeInput.value
@@ -92,8 +39,7 @@ const openPicker = () => {
 }
 
 const onNativeChange = (event: Event) => {
-  value.value = parseIsoDate((event.target as HTMLInputElement).value)
-  validate()
+  model.value = parseIsoDate((event.target as HTMLInputElement).value)
 }
 </script>
 
@@ -117,13 +63,10 @@ const onNativeChange = (event: Event) => {
         :id="id"
         :value="displayValue"
         class="date-input__field"
-        :class="{ 'date-input__field--invalid': error }"
         type="text"
         readonly
         autocomplete="off"
         placeholder="DD/MM/YYYY"
-        :aria-invalid="error !== null"
-        :aria-describedby="error ? errorId : undefined"
         @click="openPicker"
       />
       <button
@@ -135,9 +78,6 @@ const onNativeChange = (event: Event) => {
         <CalendarIcon aria-hidden="true" focusable="false" />
       </button>
     </div>
-    <p v-if="error" :id="errorId" class="date-input__error" role="alert">
-      {{ error }}
-    </p>
   </div>
 </template>
 
@@ -160,7 +100,6 @@ const onNativeChange = (event: Event) => {
 
 .date-input__field {
   position: relative;
-  box-sizing: border-box;
   width: 100%;
   height: 44px;
   padding: 0 44px 0 14px;
@@ -183,15 +122,6 @@ const onNativeChange = (event: Event) => {
 .date-input__field:focus {
   border-color: #6b72f2;
   box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
-}
-
-.date-input__field--invalid,
-.date-input__field--invalid:focus {
-  border-color: #e5484d;
-}
-
-.date-input__field--invalid:focus {
-  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.15);
 }
 
 .date-input__picker-button {
@@ -219,12 +149,5 @@ const onNativeChange = (event: Event) => {
 .date-input__picker-button:focus-visible {
   outline: 2px solid #6b72f2;
   outline-offset: 1px;
-}
-
-.date-input__error {
-  margin: 6px 0 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #e5484d;
 }
 </style>

@@ -17,13 +17,11 @@ const body = defineModel<string>({ default: '' })
   position: relative;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   padding: 8px;
 }
 
 .message-body__text {
   flex: 1;
-  box-sizing: border-box;
   margin: 0;
   /* Right padding keeps the text clear of the copy button floating over the corner. */
   padding: 12px 36px 12px 12px;

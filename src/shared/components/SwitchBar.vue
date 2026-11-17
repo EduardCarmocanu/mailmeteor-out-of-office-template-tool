@@ -40,7 +40,6 @@ const groupName = useId()
 
 <style scoped>
 .switch-bar {
-  box-sizing: border-box;
   display: flex;
   gap: 4px;
   width: 100%;
@@ -52,7 +51,6 @@ const groupName = useId()
 
 .switch-bar__option {
   position: relative;
-  box-sizing: border-box;
   display: flex;
   flex: 1 1 0;
   align-items: center;

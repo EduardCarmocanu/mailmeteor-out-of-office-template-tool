@@ -41,7 +41,6 @@ const toggle = () => {
 
 <style scoped>
 .collapsible-section__header {
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 10px;

@@ -2,12 +2,15 @@
 import { useId } from 'vue'
 import InputLabel from './InputLabel.vue'
 
-const { maxLength = 100 } = defineProps<{
-  label: string
-  placeholder: string
-  optional?: boolean
-  maxLength?: number
-}>()
+withDefaults(
+  defineProps<{
+    label: string
+    placeholder: string
+    optional?: boolean
+    maxLength?: number
+  }>(),
+  { maxLength: 100 },
+)
 
 const model = defineModel<string>({ default: '' })
 
