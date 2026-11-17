@@ -25,8 +25,8 @@ const subjectId = useId()
 .message-subject {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 16px 10px 18px;
+  gap: var(--space-1-5);
+  padding: var(--space-2-5) var(--space-4) var(--space-2-5) var(--space-4-5);
 }
 
 .message-subject__label {
@@ -43,8 +43,8 @@ const subjectId = useId()
   flex: 1;
   min-width: 0;
   height: 32px;
-  padding: 0 6px;
-  border: 1px solid transparent;
+  padding: 0 var(--space-1-5);
+  border: var(--border-width) solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
   font: inherit;
@@ -65,6 +65,6 @@ const subjectId = useId()
 .message-subject__field:focus {
   border-color: var(--color-primary);
   background: var(--color-surface);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  box-shadow: var(--shadow-focus);
 }
 </style>

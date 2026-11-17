@@ -121,8 +121,8 @@ onBeforeUnmount(clearResetTimer)
 }
 
 .copy-button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 1px;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset-sm);
 }
 
 .copy-button--copied {

@@ -31,7 +31,7 @@ const emit = defineEmits<{
 .message-editor-controls {
   display: flex;
   flex-wrap: wrap;
-  row-gap: 8px;
+  row-gap: var(--space-2);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -42,7 +42,7 @@ const emit = defineEmits<{
 
 .message-editor-controls li:not(:last-child)::after {
   content: '·';
-  margin: 0 4px;
+  margin: 0 var(--space-1);
 }
 
 .message-editor-controls__link {
@@ -63,7 +63,7 @@ const emit = defineEmits<{
 }
 
 .message-editor-controls__link:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 </style>

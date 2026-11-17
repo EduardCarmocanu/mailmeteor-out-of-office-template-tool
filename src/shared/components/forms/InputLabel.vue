@@ -17,7 +17,7 @@ defineProps<{
 <style scoped>
 .input-label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   line-height: 1.4;

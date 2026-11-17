@@ -65,16 +65,16 @@ const today = getToday()
 .template-configurator__fields {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-5);
 }
 
 .template-configurator__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .template-configurator__advanced {
-  border-top: 1px solid var(--color-border-subtle);
+  border-top: var(--border-width) solid var(--color-border-subtle);
 }
 </style>

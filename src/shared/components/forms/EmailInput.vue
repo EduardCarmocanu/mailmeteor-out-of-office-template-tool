@@ -52,8 +52,8 @@ const validate = () => {
 .email-input__field {
   width: 100%;
   height: 44px;
-  padding: 0 14px;
-  border: 1px solid var(--color-border);
+  padding: 0 var(--space-3-5);
+  border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   font: inherit;
@@ -71,7 +71,7 @@ const validate = () => {
 
 .email-input__field:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  box-shadow: var(--shadow-focus);
 }
 
 .email-input__field--invalid,
@@ -80,11 +80,11 @@ const validate = () => {
 }
 
 .email-input__field--invalid:focus {
-  box-shadow: 0 0 0 3px var(--color-danger-focus-ring);
+  box-shadow: var(--shadow-focus-danger);
 }
 
 .email-input__error {
-  margin: 6px 0 0;
+  margin: var(--space-1-5) 0 0;
   font-size: var(--font-size-sm);
   line-height: 1.4;
   color: var(--color-danger);

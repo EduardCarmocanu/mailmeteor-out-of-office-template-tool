@@ -36,6 +36,6 @@ const reasons: { label: string; value: Reason }[] = [
 .reason-selector__options {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
 }
 </style>

@@ -16,14 +16,14 @@ const body = defineModel<string>({ default: '' })
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  padding: var(--space-2);
 }
 
 .message-body__text {
   flex: 1;
   margin: 0;
-  padding: 12px 36px 12px 12px;
-  border: 1px solid transparent;
+  padding: var(--space-3) 36px var(--space-3) var(--space-3);
+  border: var(--border-width) solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
   font-family: inherit;
@@ -43,7 +43,7 @@ const body = defineModel<string>({ default: '' })
 .message-body__text:focus {
   border-color: var(--color-primary);
   background: var(--color-surface);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  box-shadow: var(--shadow-focus);
 }
 
 .message-body__copy {

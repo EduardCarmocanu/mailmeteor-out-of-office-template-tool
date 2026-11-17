@@ -95,8 +95,8 @@ const onNativeChange = (event: Event) => {
   position: relative;
   width: 100%;
   height: 44px;
-  padding: 0 44px 0 14px;
-  border: 1px solid var(--color-border);
+  padding: 0 44px 0 var(--space-3-5);
+  border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   font: inherit;
@@ -114,7 +114,7 @@ const onNativeChange = (event: Event) => {
 
 .date-input__field:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  box-shadow: var(--shadow-focus);
 }
 
 .date-input__picker-button {
@@ -140,7 +140,7 @@ const onNativeChange = (event: Event) => {
 }
 
 .date-input__picker-button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 1px;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset-sm);
 }
 </style>

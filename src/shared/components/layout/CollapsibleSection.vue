@@ -43,9 +43,9 @@ const toggle = () => {
 .collapsible-section__header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2-5);
   width: 100%;
-  padding: 12px 0;
+  padding: var(--space-3) 0;
   border: 0;
   background: none;
   font: inherit;
@@ -56,7 +56,7 @@ const toggle = () => {
 
 .collapsible-section__header:focus-visible {
   border-radius: var(--radius-md);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  box-shadow: var(--shadow-focus);
 }
 
 .collapsible-section__title {
@@ -87,6 +87,6 @@ const toggle = () => {
 }
 
 .collapsible-section__content {
-  padding-top: 8px;
+  padding-top: var(--space-2);
 }
 </style>

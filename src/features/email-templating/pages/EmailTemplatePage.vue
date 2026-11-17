@@ -55,7 +55,7 @@ const TEMPLATE_PRESETS: TemplatePreset[] = [
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  gap: 24px;
+  gap: var(--space-6);
 }
 
 .template-editor-page__column {
@@ -67,8 +67,8 @@ const TEMPLATE_PRESETS: TemplatePreset[] = [
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  gap: 8px;
-  padding-top: 8px;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
 }
 
 .template-editor-page__preset {

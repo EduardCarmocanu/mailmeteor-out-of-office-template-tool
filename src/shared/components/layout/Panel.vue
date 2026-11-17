@@ -38,9 +38,9 @@ function onKeydown(event: KeyboardEvent) {
 .panel {
   width: 100%;
   height: 100%;
-  border: 1px solid var(--color-border-subtle);
+  border: var(--border-width) solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: var(--space-6);
 }
 
 .panel--secondary {
@@ -59,7 +59,7 @@ function onKeydown(event: KeyboardEvent) {
 
 .panel--clickable:hover {
   border-color: var(--color-primary);
-  box-shadow: 0 2px 8px var(--color-shadow);
+  box-shadow: var(--shadow-md);
 }
 
 .panel--secondary.panel--clickable:hover {
@@ -68,6 +68,6 @@ function onKeydown(event: KeyboardEvent) {
 
 .panel--clickable:focus-visible {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  box-shadow: var(--shadow-focus);
 }
 </style>
