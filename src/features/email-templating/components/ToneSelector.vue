@@ -5,7 +5,7 @@ import InputLabel from '../../../shared/components/InputLabel.vue'
 import type { Tone } from '../models/Tone.model.ts'
 
 const tone = defineModel<Tone>({ default: 'formal' })
-const id = useId()
+const labelId = useId()
 
 const tones: SwitchBarOption<Tone>[] = [
   { label: 'Formal', value: 'formal' },
@@ -17,7 +17,7 @@ const tones: SwitchBarOption<Tone>[] = [
 
 <template>
   <div class="tone-selector">
-    <InputLabel :for="id">Tone</InputLabel>
-    <SwitchBar name="tone selector" v-model="tone" :options="tones" />
+    <InputLabel :id="labelId">Tone</InputLabel>
+    <SwitchBar v-model="tone" :options="tones" :aria-labelledby="labelId" />
   </div>
 </template>
