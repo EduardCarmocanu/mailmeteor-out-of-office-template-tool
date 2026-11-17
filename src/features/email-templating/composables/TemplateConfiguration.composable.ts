@@ -34,6 +34,11 @@ watch(
   },
 )
 
+/** Overwrites only the fields set in the preset, keeping the rest of the configuration. */
+function applyPreset(preset: Partial<TemplateConfiguration>) {
+  Object.assign(templateConfiguration.value, preset)
+}
+
 export function useTemplateConfiguration() {
-  return { templateConfiguration }
+  return { templateConfiguration, applyPreset }
 }
