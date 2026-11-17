@@ -1,53 +1,39 @@
 import { ref, watch } from 'vue'
-import { today as getToday } from '../../../shared/utils/date.ts'
-import type { Tone } from '../models/Tone.model.ts'
-import type { Reason } from '../models/Reason.model.ts'
-
-export interface TemplateConfiguration {
-  name: string
-  firstDayAway: Date | null
-  backOn: Date | null
-  tone: Tone
-  reason: Reason
-  backupName: string
-  backupEmail: string
-}
+import type { TemplateConfiguration } from '../models/TemplateConfiguration.model.ts'
 
 // Module-level state so the configurator and the message editor share the same template.
-const templateConfigurationForm = ref<TemplateConfiguration>({
+const templateConfiguration = ref<TemplateConfiguration>({
   name: '',
-  firstDayAway: null,
-  backOn: null,
+  leaveStart: null,
+  leaveEnd: null,
   tone: 'formal',
   reason: 'vacation',
   backupName: '',
   backupEmail: '',
 })
 
-// Keep "Back on" from falling before "First day away" by moving it forward.
+// Keep the leave end from falling before the leave start by moving it forward.
 watch(
-  () => templateConfigurationForm.value.firstDayAway,
-  (firstDayAway) => {
-    const { backOn } = templateConfigurationForm.value
-    if (firstDayAway && backOn && backOn.getTime() < firstDayAway.getTime()) {
-      templateConfigurationForm.value.backOn = new Date(firstDayAway)
+  () => templateConfiguration.value.leaveStart,
+  (leaveStart) => {
+    const { leaveEnd } = templateConfiguration.value
+    if (leaveStart && leaveEnd && leaveEnd.getTime() < leaveStart.getTime()) {
+      templateConfiguration.value.leaveEnd = new Date(leaveStart)
     }
   },
 )
 
-// Keep "First day away" from falling after "Back on" by moving it back.
+// Keep the leave start from falling after the leave end by moving it back.
 watch(
-  () => templateConfigurationForm.value.backOn,
-  (backOn) => {
-    const { firstDayAway } = templateConfigurationForm.value
-    if (backOn && firstDayAway && firstDayAway.getTime() > backOn.getTime()) {
-      templateConfigurationForm.value.firstDayAway = new Date(backOn)
+  () => templateConfiguration.value.leaveEnd,
+  (leaveEnd) => {
+    const { leaveStart } = templateConfiguration.value
+    if (leaveEnd && leaveStart && leaveStart.getTime() > leaveEnd.getTime()) {
+      templateConfiguration.value.leaveStart = new Date(leaveEnd)
     }
   },
 )
 
 export function useTemplateConfiguration() {
-  const today = getToday()
-
-  return { templateConfigurationForm, today }
+  return { templateConfiguration }
 }

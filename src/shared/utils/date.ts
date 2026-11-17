@@ -50,3 +50,17 @@ export const formatDisplayDate = (date: Date | null): string => {
   if (date === null) return ''
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${pad(date.getFullYear(), 4)}`
 }
+
+const longDateFormat = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+})
+
+const shortDateFormat = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' })
+
+/** Formats a `Date` as `Monday, December 21`, for message prose. */
+export const formatLongDate = (date: Date): string => longDateFormat.format(date)
+
+/** Formats a `Date` as `Jan 4`, for compact text such as a subject line. */
+export const formatShortDate = (date: Date): string => shortDateFormat.format(date)

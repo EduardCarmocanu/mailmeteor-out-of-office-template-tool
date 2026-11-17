@@ -3,9 +3,11 @@ import { computed } from 'vue'
 import MessageBodyEditor from './MessageBodyEditor.vue'
 import MessageEditorControls from './MessageEditorControls.vue'
 import MessageSubjectEditor from './MessageSubjectEditor.vue'
+import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'
 import { useTemplateContent } from '../composables/TemplateContent.composable.ts'
 
-const { subject, body, isEdited } = useTemplateContent()
+const { templateConfiguration } = useTemplateConfiguration()
+const { subject, body, isEdited, reset } = useTemplateContent(templateConfiguration)
 
 const wordCount = computed(() => body.value.trim().split(/\s+/).filter(Boolean).length)
 </script>
@@ -20,6 +22,7 @@ const wordCount = computed(() => body.value.trim().split(/\s+/).filter(Boolean).
       class="message-template-editor__controls"
       :word-count="wordCount"
       :edited="isEdited"
+      @reset="reset"
     />
   </div>
 </template>

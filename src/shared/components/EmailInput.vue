@@ -5,6 +5,7 @@ import InputLabel from './InputLabel.vue'
 defineProps<{
   label: string
   placeholder: string
+  optional?: boolean
 }>()
 
 const model = defineModel<string>({ default: '' })
@@ -30,7 +31,7 @@ const validate = () => {
 
 <template>
   <div class="email-input">
-    <InputLabel :for="id">{{ label }}</InputLabel>
+    <InputLabel :for="id" :optional="optional">{{ label }}</InputLabel>
     <input
       :id="id"
       v-model="model"
