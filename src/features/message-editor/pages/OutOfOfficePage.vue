@@ -1,28 +1,73 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import Panel from '../../../shared/components/Panel.vue'
 import MessageTemplateEditor from '../components/MessageTemplateEditor.vue'
 import TemplateConfigurator from '../components/TemplateConfigurator.vue'
+
+// Placeholder content until the message is generated from the configuration.
+const subject = ref('Out of office until Jan 4')
+const body = ref(
+  [
+    'Hello,',
+    'Thank you for your email. I am away for the holidays since Monday, December 21 and will be back on Monday, January 4, with limited access to email in the meantime.',
+    'I will respond to your message as soon as possible after my return.',
+    'Kind regards,\n[Your name]',
+  ].join('\n\n'),
+)
 </script>
 
 <template>
-  <Panel>
-    <TemplateConfigurator></TemplateConfigurator>
-    <MessageTemplateEditor></MessageTemplateEditor>
-  </Panel>
-  <div>
-    <Panel variant="secondary">
-      I'm off for the holidays. Let clients know who to contact if something is urgent.
+  <div class="template-editor-page">
+    <Panel>
+      <div class="template-editor-page__main-configuration">
+        <TemplateConfigurator></TemplateConfigurator>
+        <MessageTemplateEditor v-model:subject="subject" :body="body" />
+      </div>
     </Panel>
-    <Panel variant="secondary">
-      I'm on vacation. Tell my team I'm fully offline and will catch up when I'm back.
-    </Panel>
-    <Panel variant="secondary">
-      I'm at a conference with limited access to email. Keep it short and professional for clients.
-    </Panel>
-    <Panel variant="secondary">
-      I'm going on parental leave. Point people to the colleague who's covering my work.
-    </Panel>
+    <div class="template-editor-page__pre-configurations">
+      <div>
+        <Panel variant="secondary">
+          I'm off for the holidays. Let clients know who to contact if something is urgent.
+        </Panel>
+      </div>
+      <div>
+        <Panel variant="secondary">
+          I'm on vacation. Tell my team I'm fully offline and will catch up when I'm back.
+        </Panel>
+      </div>
+      <div>
+        <Panel variant="secondary">
+          I'm at a conference with limited access to email. Keep it short and professional for
+          clients.
+        </Panel>
+      </div>
+      <div>
+        <Panel variant="secondary">
+          I'm going on parental leave. Point people to the colleague who's covering my work.
+        </Panel>
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.template-editor-page__main-configuration {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.template-editor-page__main-configuration > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.template-editor-page__pre-configurations {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+}
+</style>
