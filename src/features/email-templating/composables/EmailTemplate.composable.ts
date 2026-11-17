@@ -1,10 +1,10 @@
-import { computed, ref } from 'vue'
-import { todayIso } from '../../../shared/utils/date.ts'
+import { ref, watch } from 'vue'
+import { today as getToday } from '../../../shared/utils/date.ts'
 
 export interface TemplateConfiguration {
   name: string
-  firstDayAway: string
-  backOn: string
+  firstDayAway: Date | null
+  backOn: Date | null
   tone: string
   reason: string
   backupName: string
@@ -14,8 +14,8 @@ export interface TemplateConfiguration {
 // Module-level state so the configurator and the message editor share the same template.
 const templateConfigurationForm = ref<TemplateConfiguration>({
   name: '',
-  firstDayAway: '',
-  backOn: '',
+  firstDayAway: null,
+  backOn: null,
   tone: 'formal',
   reason: 'vacation',
   backupName: '',
@@ -33,10 +33,30 @@ const body = ref(
   ].join('\n\n'),
 )
 
-export function useEmailTemplate() {
-  const today = todayIso()
-  // "Back on" can't be before "First day away"; until that is set, it can't be in the past.
-  const backOnMin = computed(() => templateConfigurationForm.value.firstDayAway || today)
+// Keep "Back on" from falling before "First day away" by moving it forward.
+watch(
+  () => templateConfigurationForm.value.firstDayAway,
+  (firstDayAway) => {
+    const { backOn } = templateConfigurationForm.value
+    if (firstDayAway && backOn && backOn.getTime() < firstDayAway.getTime()) {
+      templateConfigurationForm.value.backOn = new Date(firstDayAway)
+    }
+  },
+)
 
-  return { templateConfigurationForm, today, backOnMin, subject, body }
+// Keep "First day away" from falling after "Back on" by moving it back.
+watch(
+  () => templateConfigurationForm.value.backOn,
+  (backOn) => {
+    const { firstDayAway } = templateConfigurationForm.value
+    if (backOn && firstDayAway && firstDayAway.getTime() > backOn.getTime()) {
+      templateConfigurationForm.value.firstDayAway = new Date(backOn)
+    }
+  },
+)
+
+export function useEmailTemplate() {
+  const today = getToday()
+
+  return { templateConfigurationForm, today, subject, body }
 }

@@ -1,43 +1,42 @@
 <script setup lang="ts">
 import { computed, ref, useId, useTemplateRef, watch } from 'vue'
 import InputLabel from './InputLabel.vue'
-import { formatDisplayDate, parseDisplayDate } from '../utils/date'
+import { formatDisplayDate, parseIsoDate, startOfDay, toIsoDate } from '../utils/date'
 
 const props = defineProps<{
   label: string
-  /** Earliest allowed date as ISO `YYYY-MM-DD`, or `null` for no lower bound. */
-  min: string | null
-  /** Latest allowed date as ISO `YYYY-MM-DD`, or `null` for no upper bound. */
-  max: string | null
+  /** Earliest allowed day, or `null` for no lower bound. */
+  min: Date | null
+  /** Latest allowed day, or `null` for no upper bound. */
+  max: Date | null
 }>()
 
-/** A valid, in-bounds ISO `YYYY-MM-DD` date, or `''` when empty or invalid. */
-const model = defineModel<string>({ default: '' })
-
-const FORMAT_ERROR = 'Please enter a date in DD/MM/YYYY format.'
+/** A valid, in-bounds day, or `null` when empty or out of bounds. */
+const model = defineModel<Date | null>({ default: null })
 
 const id = useId()
 const errorId = useId()
 const nativeInput = useTemplateRef<HTMLInputElement>('native')
 
-/** What the user typed, in `DD/MM/YYYY`. */
-const text = ref(formatDisplayDate(model.value))
+/** The picked day, kept even when out of bounds so it stays visible. */
+const value = ref<Date | null>(model.value)
 const error = ref<string | null>(null)
 
-/** Lets the hidden picker open on the typed date, even when it is out of bounds. */
-const nativeValue = computed(() => parseDisplayDate(text.value) ?? '')
+const displayValue = computed(() => formatDisplayDate(value.value))
 
-/** All errors for a non-empty value, most important first. */
-const getErrors = (value: string): string[] => {
-  const iso = parseDisplayDate(value)
-  // Bounds can't be checked without a real date.
-  if (iso === null) return [FORMAT_ERROR]
+// The native date input only speaks `YYYY-MM-DD`; convert at that boundary only.
+const nativeValue = computed(() => (value.value ? toIsoDate(value.value) : ''))
+const nativeMin = computed(() => (props.min ? toIsoDate(props.min) : undefined))
+const nativeMax = computed(() => (props.max ? toIsoDate(props.max) : undefined))
 
+/** All bound errors for a picked day, most important first. */
+const getErrors = (date: Date): string[] => {
+  const day = startOfDay(date).getTime()
   const errors: string[] = []
-  if (props.min !== null && iso < props.min) {
+  if (props.min !== null && day < startOfDay(props.min).getTime()) {
     errors.push(`Date must be on or after ${formatDisplayDate(props.min)}.`)
   }
-  if (props.max !== null && iso > props.max) {
+  if (props.max !== null && day > startOfDay(props.max).getTime()) {
     errors.push(`Date must be on or before ${formatDisplayDate(props.max)}.`)
   }
   return errors
@@ -46,30 +45,28 @@ const getErrors = (value: string): string[] => {
 // Last value written to the model by this component, to tell our own updates
 // apart from changes made by the parent.
 let committed = model.value
-const commit = (value: string) => {
-  committed = value
-  model.value = value
+const commit = (date: Date | null) => {
+  committed = date
+  model.value = date
 }
 
-// Validation runs when the field loses focus, on Enter, after a calendar pick,
-// and when the bounds change; typing never changes the error state.
+// Validation runs after a calendar pick, when the parent sets the model,
+// and when the bounds change.
 const validate = () => {
-  const value = text.value.trim()
-  if (value === '') {
+  if (value.value === null) {
     error.value = null
-    commit('')
+    commit(null)
     return
   }
 
-  const errors = getErrors(value)
-  error.value = errors[0] ?? null
-  commit(error.value === null ? (parseDisplayDate(value) ?? '') : '')
+  error.value = getErrors(value.value)[0] ?? null
+  commit(error.value === null ? value.value : null)
 }
 
-watch(model, (value) => {
-  if (value === committed) return
-  committed = value
-  text.value = formatDisplayDate(value)
+watch(model, (next) => {
+  if (next === committed) return
+  committed = next
+  value.value = next
   validate()
 })
 
@@ -77,7 +74,7 @@ watch(model, (value) => {
 watch(
   () => [props.min, props.max],
   () => {
-    if (text.value.trim() !== '') validate()
+    if (value.value !== null) validate()
   },
 )
 
@@ -94,8 +91,7 @@ const openPicker = () => {
 }
 
 const onNativeChange = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value
-  text.value = formatDisplayDate(value)
+  value.value = parseIsoDate((event.target as HTMLInputElement).value)
   validate()
 }
 </script>
@@ -112,23 +108,22 @@ const onNativeChange = (event: Event) => {
         tabindex="-1"
         aria-hidden="true"
         :value="nativeValue"
-        :min="min ?? undefined"
-        :max="max ?? undefined"
+        :min="nativeMin"
+        :max="nativeMax"
         @change="onNativeChange"
       />
       <input
         :id="id"
-        v-model="text"
+        :value="displayValue"
         class="date-input__field"
         :class="{ 'date-input__field--invalid': error }"
         type="text"
-        inputmode="numeric"
+        readonly
         autocomplete="off"
         placeholder="DD/MM/YYYY"
         :aria-invalid="error !== null"
         :aria-describedby="error ? errorId : undefined"
-        @blur="validate"
-        @keydown.enter="validate"
+        @click="openPicker"
       />
       <button
         type="button"

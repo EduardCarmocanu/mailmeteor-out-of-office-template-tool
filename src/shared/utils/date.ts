@@ -1,51 +1,52 @@
 /**
- * Date helpers working with two string formats:
- * - ISO `YYYY-MM-DD`: the canonical value (model values, min/max bounds, native date input).
- * - Display `DD/MM/YYYY`: what the user reads and types.
+ * Date helpers. Dates are `Date` objects set to local midnight (calendar days);
+ * ordering is always done on `Date` values, never on strings.
  *
- * All conversions use local date parts (never `toISOString`, which is UTC) so a
- * date never shifts by a day depending on the user's timezone. ISO strings sort
- * lexicographically in chronological order, so they can be compared with `<` / `>`.
+ * ISO `YYYY-MM-DD` strings exist only at the native `<input type="date">`
+ * boundary (`toIsoDate` / `parseIsoDate`).
+ *
+ * All conversions use local date parts (never `toISOString`, `valueAsDate` or
+ * `new Date('YYYY-MM-DD')`, which are UTC) so a date never shifts by a day
+ * depending on the user's timezone.
  */
 
-const DISPLAY_DATE_RE = /^(\d{2})\/(\d{2})\/(\d{4})$/
 const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/
 
 const pad = (value: number, length = 2) => String(value).padStart(length, '0')
 
-/** Formats a `Date` as a local ISO `YYYY-MM-DD` string. */
+/** The same calendar day as `date`, at local midnight. */
+export const startOfDay = (date: Date): Date =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+/** Today at local midnight. */
+export const today = (): Date => startOfDay(new Date())
+
+/** Formats a `Date` as a local ISO `YYYY-MM-DD` string, for the native date input. */
 export const toIsoDate = (date: Date): string =>
   `${pad(date.getFullYear(), 4)}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 
-/** Today's date as a local ISO `YYYY-MM-DD` string. */
-export const todayIso = (): string => toIsoDate(new Date())
-
 /**
- * Parses a `DD/MM/YYYY` string into an ISO `YYYY-MM-DD` string.
- * Returns `null` when the text is not in that format or is not a real calendar
- * date (e.g. `31/02/2027`).
+ * Parses a native date input value (`YYYY-MM-DD`) into a local-midnight `Date`.
+ * Returns `null` for an empty or invalid value.
  */
-export const parseDisplayDate = (text: string): string | null => {
-  const match = DISPLAY_DATE_RE.exec(text.trim())
+export const parseIsoDate = (iso: string): Date | null => {
+  const match = ISO_DATE_RE.exec(iso)
   if (!match) return null
 
-  const day = Number(match[1])
+  const year = Number(match[1])
   const month = Number(match[2])
-  const year = Number(match[3])
+  const day = Number(match[3])
 
   const date = new Date(year, month - 1, day)
-  // `new Date` silently rolls over invalid parts (31/02 -> 03/03), so make sure
-  // the parts survived the round-trip.
+  // `new Date` silently rolls over invalid parts (02-31 -> 03-03).
   if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
     return null
   }
-
-  return toIsoDate(date)
+  return date
 }
 
-/** Formats an ISO `YYYY-MM-DD` string as `DD/MM/YYYY`. Returns `''` for anything else. */
-export const formatDisplayDate = (iso: string): string => {
-  const match = ISO_DATE_RE.exec(iso)
-  if (!match) return ''
-  return `${match[3]}/${match[2]}/${match[1]}`
+/** Formats a `Date` as `DD/MM/YYYY`. Returns `''` for `null`. */
+export const formatDisplayDate = (date: Date | null): string => {
+  if (date === null) return ''
+  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${pad(date.getFullYear(), 4)}`
 }

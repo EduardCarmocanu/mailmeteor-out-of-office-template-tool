@@ -7,7 +7,7 @@ import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
 import { useEmailTemplate } from '../composables/EmailTemplate.composable.ts'
 
-const { templateConfigurationForm: form, today, backOnMin } = useEmailTemplate()
+const { templateConfigurationForm: form, today } = useEmailTemplate()
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const { templateConfigurationForm: form, today, backOnMin } = useEmailTemplate()
     <TextInput v-model="form.name" :label="'Your Name'" :placeholder="'e.g. Jordan Lee'" />
     <div class="template-configurator__row">
       <DateInput v-model="form.firstDayAway" label="First day away" :min="today" :max="null" />
-      <DateInput v-model="form.backOn" label="Back on" :min="backOnMin" :max="null" />
+      <DateInput v-model="form.backOn" label="Back on" :min="today" :max="null" />
     </div>
     <ToneSelector v-model="form.tone" />
     <CollapsibleSection
