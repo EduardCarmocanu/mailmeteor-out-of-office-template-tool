@@ -6,7 +6,7 @@ import DateInput from '../../../shared/components/DateInput.vue'
 import CollapsibleSection from '../../../shared/components/CollapsibleSection.vue'
 import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
-import { todayIso } from '../../../shared/utils/date'
+import { todayIso } from '../../../shared/utils/date.ts'
 
 const form = ref({
   name: '',
@@ -45,7 +45,11 @@ const backOnMin = computed(() => form.value.firstDayAway || today)
             placeholder="e.g. Sam Patel"
             optional
           />
-          <EmailInput v-model="form.backupEmail" label="Their email" placeholder="sam@company.com" />
+          <EmailInput
+            v-model="form.backupEmail"
+            label="Their email"
+            placeholder="sam@company.com"
+          />
         </div>
       </div>
     </CollapsibleSection>

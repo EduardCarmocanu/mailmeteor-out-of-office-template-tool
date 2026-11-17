@@ -25,7 +25,7 @@ defineProps<{
   margin: 0;
   /* Keep clear of the copy button. */
   padding-right: 40px;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   color: #2b3152;
   white-space: pre-wrap;

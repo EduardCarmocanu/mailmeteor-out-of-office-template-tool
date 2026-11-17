@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import OutOfOfficePage from './features/message-editor/pages/OutOfOfficePage.vue';
-
+import EmailTemplatePage from './features/email-templating/pages/EmailTemplatePage.vue'
 </script>
 
 <template>
-  <OutOfOfficePage />
+  <EmailTemplatePage />
 </template>
 
 <style scoped></style>

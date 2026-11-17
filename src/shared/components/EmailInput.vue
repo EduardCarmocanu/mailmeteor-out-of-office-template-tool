@@ -59,7 +59,7 @@ const validate = () => {
   border-radius: 6px;
   background: #fff;
   font: inherit;
-  font-size: 15px;
+  font-size: 14px;
   color: #2b3152;
   outline: none;
   transition:
