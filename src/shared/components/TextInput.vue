@@ -2,15 +2,15 @@
 import { useId } from 'vue'
 import InputLabel from './InputLabel.vue'
 
-defineProps<{
+const { maxLength = 100 } = defineProps<{
   label: string
   placeholder: string
   optional?: boolean
+  maxLength?: number
 }>()
 
 const model = defineModel<string>({ default: '' })
 
-const MAX_LENGTH = 100
 const id = useId()
 </script>
 
@@ -23,14 +23,13 @@ const id = useId()
       class="text-input__field"
       type="text"
       :placeholder="placeholder"
-      :maxlength="MAX_LENGTH"
+      :maxlength="maxLength"
     />
   </div>
 </template>
 
 <style scoped>
 .text-input__field {
-  box-sizing: border-box;
   width: 100%;
   height: 44px;
   padding: 0 14px;
