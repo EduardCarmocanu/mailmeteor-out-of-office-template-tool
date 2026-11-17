@@ -55,23 +55,23 @@ const toggle = () => {
 }
 
 .collapsible-section__header:focus-visible {
-  border-radius: 6px;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .collapsible-section__title {
   flex-shrink: 0;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  color: #1f2340;
+  color: var(--color-text-strong);
 }
 
 .collapsible-section__subtitle {
   min-width: 0;
   overflow: hidden;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-regular);
-  color: #7a7f9e;
+  color: var(--color-text-subtle);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -79,7 +79,7 @@ const toggle = () => {
 .collapsible-section__chevron {
   flex-shrink: 0;
   margin-left: auto;
-  color: #1f2340;
+  color: var(--color-text-strong);
 }
 
 .collapsible-section__chevron--open {

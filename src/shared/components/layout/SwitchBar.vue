@@ -44,9 +44,9 @@ const groupName = useId()
   gap: 4px;
   width: 100%;
   padding: 4px;
-  border: 1px solid #e6e8ef;
-  border-radius: 8px;
-  background: #f4f5f8;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-muted);
 }
 
 .switch-bar__option {
@@ -59,26 +59,26 @@ const groupName = useId()
   height: 40px;
   padding: 0 12px;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-regular);
-  color: #5c6185;
+  color: var(--color-text-secondary);
   cursor: pointer;
   user-select: none;
 }
 
 .switch-bar__option--selected {
-  border-color: #e6e8ef;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(43, 49, 82, 0.06);
+  border-color: var(--color-border-subtle);
+  background: var(--color-surface);
+  box-shadow: 0 1px 2px var(--color-shadow-subtle);
   font-weight: var(--font-weight-semibold);
-  color: #1f2340;
+  color: var(--color-text-strong);
 }
 
 .switch-bar__option:has(.switch-bar__input:focus-visible) {
-  border-color: #6b72f2;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .switch-bar__input {

@@ -31,8 +31,8 @@ const subjectId = useId()
 
 .message-subject__label {
   flex: none;
-  font-size: 14px;
-  color: #6b7190;
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
 }
 
 .message-subject__copy {
@@ -45,12 +45,12 @@ const subjectId = useId()
   height: 32px;
   padding: 0 6px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: transparent;
   font: inherit;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  color: #1f2340;
+  color: var(--color-text-strong);
   outline: none;
   transition:
     border-color 0.15s ease,
@@ -59,12 +59,12 @@ const subjectId = useId()
 }
 
 .message-subject__field:hover {
-  border-color: #dcdfe8;
+  border-color: var(--color-border);
 }
 
 .message-subject__field:focus {
-  border-color: #6b72f2;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 </style>

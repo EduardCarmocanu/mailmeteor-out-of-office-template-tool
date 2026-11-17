@@ -96,12 +96,12 @@ const onNativeChange = (event: Event) => {
   width: 100%;
   height: 44px;
   padding: 0 44px 0 14px;
-  border: 1px solid #dcdfe8;
-  border-radius: 6px;
-  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   font: inherit;
-  font-size: 14px;
-  color: #2b3152;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
   outline: none;
   transition:
     border-color 0.15s ease,
@@ -109,12 +109,12 @@ const onNativeChange = (event: Event) => {
 }
 
 .date-input__field::placeholder {
-  color: #9ca1b9;
+  color: var(--color-text-placeholder);
 }
 
 .date-input__field:focus {
-  border-color: #6b72f2;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .date-input__picker-button {
@@ -128,19 +128,19 @@ const onNativeChange = (event: Event) => {
   height: 28px;
   padding: 0;
   border: 0;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: #2b3152;
+  color: var(--color-text);
   cursor: pointer;
   transform: translateY(-50%);
 }
 
 .date-input__picker-button:hover {
-  background: #f1f2f7;
+  background: var(--color-surface-hover);
 }
 
 .date-input__picker-button:focus-visible {
-  outline: 2px solid #6b72f2;
+  outline: 2px solid var(--color-primary);
   outline-offset: 1px;
 }
 </style>

@@ -39,13 +39,13 @@ const wordCount = computed(() => body.value.trim().split(/\s+/).filter(Boolean).
   flex: 1;
   flex-direction: column;
   min-height: 420px;
-  border: 1px solid #e6e8ef;
-  border-radius: 6px;
-  background: #f4f5f8;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
 }
 
 .message-template-editor__subject {
-  border-bottom: 1px solid #e6e8ef;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .message-template-editor__body {

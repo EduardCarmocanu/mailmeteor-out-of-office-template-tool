@@ -35,9 +35,9 @@ const emit = defineEmits<{
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: 1.2;
-  color: #6b7190;
+  color: var(--color-text-muted);
 }
 
 .message-editor-controls li:not(:last-child)::after {
@@ -48,7 +48,7 @@ const emit = defineEmits<{
 .message-editor-controls__link {
   padding: 0;
   border: 0;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   background: none;
   font: inherit;
   color: inherit;
@@ -58,12 +58,12 @@ const emit = defineEmits<{
 }
 
 .message-editor-controls__link:hover {
-  color: #2b3152;
+  color: var(--color-text);
   text-decoration: underline;
 }
 
 .message-editor-controls__link:focus-visible {
-  outline: 2px solid #6b72f2;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 </style>

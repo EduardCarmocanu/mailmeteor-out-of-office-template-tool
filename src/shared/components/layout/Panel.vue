@@ -38,13 +38,13 @@ function onKeydown(event: KeyboardEvent) {
 .panel {
   width: 100%;
   height: 100%;
-  border: 1px solid #e6e8ef;
-  border-radius: 8px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
   padding: 24px;
 }
 
 .panel--secondary {
-  background-color: #f4f5f8;
+  background-color: var(--color-surface-muted);
 }
 
 .panel--clickable {
@@ -58,16 +58,16 @@ function onKeydown(event: KeyboardEvent) {
 }
 
 .panel--clickable:hover {
-  border-color: #6b72f2;
-  box-shadow: 0 2px 8px rgba(31, 35, 64, 0.08);
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .panel--secondary.panel--clickable:hover {
-  background-color: #eceefd;
+  background-color: var(--color-primary-subtle);
 }
 
 .panel--clickable:focus-visible {
-  border-color: #6b72f2;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 </style>

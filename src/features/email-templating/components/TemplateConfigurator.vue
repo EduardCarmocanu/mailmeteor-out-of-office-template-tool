@@ -75,6 +75,6 @@ const today = getToday()
 }
 
 .template-configurator__advanced {
-  border-top: 1px solid #e6e8ef;
+  border-top: 1px solid var(--color-border-subtle);
 }
 </style>

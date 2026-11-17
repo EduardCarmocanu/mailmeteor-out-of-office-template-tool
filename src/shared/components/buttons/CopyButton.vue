@@ -109,28 +109,28 @@ onBeforeUnmount(clearResetTimer)
   height: 28px;
   padding: 0;
   border: 0;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: #2b3152;
+  color: var(--color-text);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .copy-button:hover {
-  background: #e6e8ef;
+  background: var(--color-surface-hover-strong);
 }
 
 .copy-button:focus-visible {
-  outline: 2px solid #6b72f2;
+  outline: 2px solid var(--color-primary);
   outline-offset: 1px;
 }
 
 .copy-button--copied {
-  color: #2f9e62;
+  color: var(--color-success);
 }
 
 .copy-button--error {
-  color: #d14343;
+  color: var(--color-danger-strong);
 }
 
 .copy-button__icon--shake {

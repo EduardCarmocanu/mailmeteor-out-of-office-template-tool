@@ -24,12 +24,12 @@ const body = defineModel<string>({ default: '' })
   margin: 0;
   padding: 12px 36px 12px 12px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: transparent;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   line-height: 1.6;
-  color: #2b3152;
+  color: var(--color-text);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   resize: none;
@@ -41,9 +41,9 @@ const body = defineModel<string>({ default: '' })
 }
 
 .message-body__text:focus {
-  border-color: #6b72f2;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .message-body__copy {

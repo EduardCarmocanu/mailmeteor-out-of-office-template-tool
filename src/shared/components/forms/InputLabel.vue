@@ -18,10 +18,10 @@ defineProps<{
 .input-label {
   display: block;
   margin-bottom: 8px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   line-height: 1.4;
-  color: #3b4262;
+  color: var(--color-text-label);
 }
 
 .input-label__optional {

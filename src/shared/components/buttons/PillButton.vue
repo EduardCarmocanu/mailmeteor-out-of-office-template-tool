@@ -26,13 +26,13 @@ withDefaults(
   justify-content: center;
   height: 40px;
   padding: 0 18px;
-  border: 1px solid #dcdfe8;
-  border-radius: 999px;
-  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
   font: inherit;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-regular);
-  color: #2b3152;
+  color: var(--color-text);
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
@@ -60,22 +60,22 @@ withDefaults(
 }
 
 .pill-button:hover {
-  background: #f4f5f8;
+  background: var(--color-surface-muted);
 }
 
 .pill-button--selected {
-  border-color: #6b72f2;
-  background: #eceefd;
+  border-color: var(--color-primary);
+  background: var(--color-primary-subtle);
   font-weight: var(--font-weight-semibold);
-  color: #1f2340;
+  color: var(--color-text-strong);
 }
 
 .pill-button--selected:hover {
-  background: #e2e5fb;
+  background: var(--color-primary-subtle-hover);
 }
 
 .pill-button:focus-visible {
-  border-color: #6b72f2;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 </style>

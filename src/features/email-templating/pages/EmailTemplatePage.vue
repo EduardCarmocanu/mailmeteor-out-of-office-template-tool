@@ -72,7 +72,7 @@ const TEMPLATE_PRESETS: TemplatePreset[] = [
 }
 
 .template-editor-page__preset {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   line-height: 1.6;
 }
 </style>

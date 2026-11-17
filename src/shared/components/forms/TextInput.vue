@@ -36,12 +36,12 @@ const id = useId()
   width: 100%;
   height: 44px;
   padding: 0 14px;
-  border: 1px solid #dcdfe8;
-  border-radius: 6px;
-  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   font: inherit;
-  font-size: 14px;
-  color: #2b3152;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
   outline: none;
   transition:
     border-color 0.15s ease,
@@ -49,11 +49,11 @@ const id = useId()
 }
 
 .text-input__field::placeholder {
-  color: #9ca1b9;
+  color: var(--color-text-placeholder);
 }
 
 .text-input__field:focus {
-  border-color: #6b72f2;
-  box-shadow: 0 0 0 3px rgba(107, 114, 242, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 </style>
