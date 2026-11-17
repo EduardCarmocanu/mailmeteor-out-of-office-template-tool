@@ -5,6 +5,7 @@
 }
 
 :root {
+  /* Typography */
   --font-family-base:
     'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
@@ -16,17 +17,20 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
 
+  /* Radii */
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-full: 999px;
 
+  /* Colors: primary */
   --color-primary: #6b72f2;
   --color-primary-subtle: #eceefd;
   --color-primary-subtle-hover: #e2e5fb;
   --color-focus-ring: rgba(107, 114, 242, 0.15);
 
+  /* Colors: text */
   --color-text-strong: #1f2340;
   --color-text: #2b3152;
   --color-text-label: #3b4262;
@@ -35,22 +39,27 @@
   --color-text-subtle: #7a7f9e;
   --color-text-placeholder: #9ca1b9;
 
+  /* Colors: surfaces */
   --color-surface: #fff;
   --color-surface-muted: #f4f5f8;
   --color-surface-hover: #f1f2f7;
   --color-surface-hover-strong: #e6e8ef;
 
+  /* Colors: borders */
   --color-border: #dcdfe8;
   --color-border-subtle: #e6e8ef;
 
+  /* Colors: status */
   --color-success: #2f9e62;
   --color-danger: #e5484d;
   --color-danger-strong: #d14343;
   --color-danger-focus-ring: rgba(229, 72, 77, 0.15);
 
+  /* Colors: shadows */
   --color-shadow: rgba(31, 35, 64, 0.08);
   --color-shadow-subtle: rgba(43, 49, 82, 0.06);
 
+  /* Spacing */
   --space-1: 4px;
   --space-1-5: 6px;
   --space-2: 8px;
@@ -62,13 +71,16 @@
   --space-5: 20px;
   --space-6: 24px;
 
+  /* Borders */
   --border-width: 1px;
 
+  /* Shadows */
   --shadow-sm: 0 1px 2px var(--color-shadow-subtle);
   --shadow-md: 0 2px 8px var(--color-shadow);
   --shadow-focus: 0 0 0 3px var(--color-focus-ring);
   --shadow-focus-danger: 0 0 0 3px var(--color-danger-focus-ring);
 
+  /* Focus */
   --focus-outline: 2px solid var(--color-primary);
   --focus-outline-offset: 2px;
   --focus-outline-offset-sm: 1px;
