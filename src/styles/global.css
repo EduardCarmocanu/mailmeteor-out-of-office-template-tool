@@ -1,7 +1,14 @@
 /*
- * Global styles: typography base shared by the whole app.
+ * Global styles: box model and typography base shared by the whole app.
  * Poppins is loaded from Google Fonts in index.html (weights 400, 500, 600).
  */
+
+/* Padding and borders are included in an element's declared width and height. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 :root {
   --font-family-base:
