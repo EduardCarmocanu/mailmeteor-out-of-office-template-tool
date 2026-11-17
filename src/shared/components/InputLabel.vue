@@ -1,8 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  /** Id of the form control this label describes. */
   for?: string
-  /** Appends a lighter "(optional)" hint after the label text. */
   optional?: boolean
 }>()
 </script>

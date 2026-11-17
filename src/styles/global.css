@@ -1,9 +1,3 @@
-/*
- * Global styles: box model and typography base shared by the whole app.
- * Poppins is loaded from Google Fonts in index.html (weights 400, 500, 600).
- */
-
-/* Padding and borders are included in an element's declared width and height. */
 *,
 *::before,
 *::after {
@@ -14,11 +8,8 @@
   --font-family-base:
     'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  /* Body text, placeholders, inactive options. */
   --font-weight-regular: 400;
-  /* Field labels, section titles, the subject line. */
   --font-weight-medium: 500;
-  /* Selected options (active tone, selected reason). */
   --font-weight-semibold: 600;
 }
 
@@ -30,7 +21,6 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-/* Form controls don't inherit the page font by default. */
 button,
 input,
 select,

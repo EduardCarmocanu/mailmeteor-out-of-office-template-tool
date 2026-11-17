@@ -7,8 +7,6 @@ import type { TemplateConfiguration } from '../models/TemplateConfiguration.mode
 
 const { templateConfiguration } = useTemplateConfiguration()
 
-// The configuration lives in module-level state, so it must be reset between tests.
-// The editor reads `templateConfiguration.value` once at setup, so reset before mounting.
 function resetConfiguration(overrides: Partial<TemplateConfiguration> = {}) {
   templateConfiguration.value = {
     name: 'Ada',
@@ -84,7 +82,6 @@ describe('MessageTemplateEditor', () => {
     it('counts the words of the generated body', () => {
       const wrapper = mountEditor()
 
-      // "[back on]." counts as two words, like any whitespace-separated text.
       expect(wordCountText(wrapper)).toBe('8 words')
     })
 
@@ -264,8 +261,6 @@ describe('MessageTemplateEditor', () => {
       )
     })
 
-    // Documents current behavior: the editor captures `templateConfiguration.value` at setup,
-    // so replacing the whole configuration object (instead of mutating it) is not picked up.
     it('does not regenerate when the configuration object is replaced', async () => {
       const wrapper = mountEditor()
 

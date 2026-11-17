@@ -6,13 +6,10 @@ import { formatDisplayDate, parseIsoDate, toIsoDate } from '../utils/date'
 
 const props = defineProps<{
   label: string
-  /** Earliest allowed day, or `null` for no lower bound. */
   min: Date | null
-  /** Latest allowed day, or `null` for no upper bound. */
   max: Date | null
 }>()
 
-/** The picked day, or `null` when empty. */
 const model = defineModel<Date | null>({ default: null })
 
 const id = useId()
@@ -20,8 +17,6 @@ const nativeInput = useTemplateRef<HTMLInputElement>('native')
 
 const displayValue = computed(() => formatDisplayDate(model.value))
 
-// The native date input only speaks `YYYY-MM-DD`; convert at that boundary only.
-// Its `min`/`max` keep out-of-range days from being picked in the calendar.
 const nativeValue = computed(() => (model.value ? toIsoDate(model.value) : ''))
 const nativeMin = computed(() => (props.min ? toIsoDate(props.min) : undefined))
 const nativeMax = computed(() => (props.max ? toIsoDate(props.max) : undefined))
@@ -32,7 +27,6 @@ const openPicker = () => {
   try {
     input.showPicker()
   } catch {
-    // Older browsers without showPicker().
     input.focus()
     input.click()
   }
@@ -47,7 +41,6 @@ const onNativeChange = (event: Event) => {
   <div class="date-input">
     <InputLabel :for="id">{{ label }}</InputLabel>
     <div class="date-input__control">
-      <!-- Only used for its calendar popup, anchored to the field. -->
       <input
         ref="native"
         class="date-input__native"

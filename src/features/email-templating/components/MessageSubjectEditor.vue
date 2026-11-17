@@ -26,7 +26,6 @@ const subjectId = useId()
   display: flex;
   align-items: center;
   gap: 6px;
-  /* Right padding lines the copy button up with the message body's. */
   padding: 10px 16px 10px 18px;
 }
 

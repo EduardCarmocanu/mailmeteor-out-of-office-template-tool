@@ -24,7 +24,6 @@ function iconName(wrapper: ReturnType<typeof mountCopyButton>) {
 
 describe('CopyButton', () => {
   beforeEach(() => {
-    // Only fake the timers the component uses so flushPromises (setImmediate/setTimeout-based) still works.
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
     writeText.mockReset().mockResolvedValue(undefined)
     Object.defineProperty(navigator, 'clipboard', {

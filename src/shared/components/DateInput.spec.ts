@@ -9,10 +9,6 @@ type DateInputProps = {
   modelValue?: Date | null
 }
 
-/**
- * Mounts DateInput wired like `v-model`: every emitted value is fed back in as
- * the `modelValue` prop, the way a parent component would.
- */
 function mountDateInput(props: DateInputProps = {}) {
   const wrapper: VueWrapper = mount(DateInput, {
     props: {
@@ -33,7 +29,6 @@ const pickerButton = (wrapper: VueWrapper) => wrapper.find('.date-input__picker-
 const emittedValues = (wrapper: VueWrapper) =>
   (wrapper.emitted('update:modelValue') ?? []).map(([value]) => value)
 
-/** Simulates the user picking a day in the native calendar popup. */
 async function pick(wrapper: VueWrapper, iso: string) {
   await nativeInput(wrapper).setValue(iso)
 }

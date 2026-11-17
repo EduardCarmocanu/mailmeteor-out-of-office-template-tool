@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import CopyButton from '../../../shared/components/CopyButton.vue'
 
-/** Plain-text message; blank lines separate paragraphs. */
 const body = defineModel<string>({ default: '' })
 </script>
 
@@ -23,7 +22,6 @@ const body = defineModel<string>({ default: '' })
 .message-body__text {
   flex: 1;
   margin: 0;
-  /* Right padding keeps the text clear of the copy button floating over the corner. */
   padding: 12px 36px 12px 12px;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -51,7 +49,6 @@ const body = defineModel<string>({ default: '' })
 .message-body__copy {
   position: absolute;
   z-index: 1;
-  /* Centred on the first line of text; right offset matches the subject's copy button. */
   top: 18px;
   right: 16px;
 }

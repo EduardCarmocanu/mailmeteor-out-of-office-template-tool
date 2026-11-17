@@ -15,8 +15,6 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const id = useId()
 const errorId = useId()
 
-// Validation runs only when the field loses focus, and only if the value changed
-// since the last check; typing never changes the error state.
 const showError = ref(false)
 let lastValidatedValue = model.value
 

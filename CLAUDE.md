@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+## Code style
+
+- Do not add comments to the code (including JSDoc, HTML comments in templates, and CSS comments) unless explicitly asked to. Write self-explanatory code with clear names instead.
+
 ## Testing
 
 - Put unit tests next to the file they test, using the same base name with a `.spec.ts` suffix.

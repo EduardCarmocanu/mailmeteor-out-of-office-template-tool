@@ -10,7 +10,6 @@ function mountEmailInput(props: Partial<InstanceType<typeof EmailInput>['$props'
     props: {
       label: 'Email',
       placeholder: 'jane@example.com',
-      // Mirror v-model so the component receives the updated value back, as in real usage.
       'onUpdate:modelValue': (value: string) => wrapper.setProps({ modelValue: value }),
       ...props,
     },

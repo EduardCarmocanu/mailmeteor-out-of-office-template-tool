@@ -9,25 +9,19 @@ export interface Template {
   body: string
 }
 
-/** Configuration values formatted for insertion into a base template. */
 export interface TemplateValues {
   name: string
   leaveStart: string
   leaveEnd: string
-  /** Short `Jan 4` form of the return date, or `null` when it isn't set. */
   leaveEndShort: string | null
-  /** Reads after "I am …", e.g. `on vacation`. */
   reasonPhrase: string
-  /** Set only when a backup name is given; `email` is optional. */
   backup: { name: string; email: string | null } | null
 }
 
-// Placeholders keep missing values visible so the user knows what to fill in.
 const NAME_PLACEHOLDER = '[Your name]'
 const LEAVE_START_PLACEHOLDER = '[first day away]'
 const LEAVE_END_PLACEHOLDER = '[back on]'
 
-/** How each reason reads after "I am …" in a message. */
 const REASON_PHRASES: Record<Reason, string> = {
   'vacation': 'on vacation',
   'holidays': 'away for the holidays',
@@ -51,18 +45,15 @@ export function toTemplateValues(config: TemplateConfiguration): TemplateValues 
   }
 }
 
-/** `Sam Patel (sam@company.com)`, or just the name when there is no email. */
 const formatBackup = ({ name, email }: NonNullable<TemplateValues['backup']>) =>
   email ? `${name} (${email})` : name
 
-/** Joins paragraphs with blank lines, skipping the ones left out (e.g. no backup). */
 const paragraphs = (...parts: (string | null)[]) =>
   parts.filter((part): part is string => part !== null).join('\n\n')
 
 const outOfOfficeSubject = (v: TemplateValues, prefix = 'Out of office') =>
   v.leaveEndShort ? `${prefix} until ${v.leaveEndShort}` : prefix
 
-/** One base template per tone; the tone configuration picks which one is used. */
 export const BASE_TEMPLATES: Record<Tone, (v: TemplateValues) => Template> = {
   formal: (v) => ({
     subject: outOfOfficeSubject(v),
@@ -110,31 +101,23 @@ export const BASE_TEMPLATES: Record<Tone, (v: TemplateValues) => Template> = {
   }),
 }
 
-/** Builds the message content from a configuration with the base template for its tone. */
 export function generateTemplate(config: TemplateConfiguration): Template {
   return BASE_TEMPLATES[config.tone](toTemplateValues(config))
 }
 
-/**
- * Editable message content generated from the given configuration.
- * The configuration must be reactive (e.g. a ref's `.value`) for the message to regenerate.
- */
 export function useTemplateContent(configuration: TemplateConfiguration) {
   const generated = computed(() => generateTemplate(configuration))
 
   const subject = ref(generated.value.subject)
   const body = ref(generated.value.body)
 
-  /** Restores the subject and body generated from the configuration. */
   function reset() {
     subject.value = generated.value.subject
     body.value = generated.value.body
   }
 
-  // Any configuration change regenerates the message, replacing manual edits.
   watch(generated, reset)
 
-  // True once the subject or body differs from the generated content.
   const isEdited = computed(
     () => subject.value !== generated.value.subject || body.value !== generated.value.body,
   )

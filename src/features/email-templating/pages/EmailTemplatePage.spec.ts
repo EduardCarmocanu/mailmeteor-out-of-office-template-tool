@@ -30,7 +30,6 @@ const PRESETS: { description: string; configuration: Partial<TemplateConfigurati
 
 const { templateConfiguration } = useTemplateConfiguration()
 
-// The configuration lives in module-level state, so it must be reset between tests.
 function resetConfiguration(overrides: Partial<TemplateConfiguration> = {}) {
   templateConfiguration.value = {
     name: '',

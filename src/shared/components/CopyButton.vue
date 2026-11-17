@@ -6,9 +6,7 @@ import CrossIcon from '@/assets/icons/cross.svg?component'
 
 const props = withDefaults(
   defineProps<{
-    /** Text written to the clipboard on click. */
     text: string
-    /** Accessible name of the button before copying. */
     label?: string
   }>(),
   { label: 'Copy' },
@@ -19,7 +17,6 @@ type CopyStatus = 'idle' | 'copied' | 'error'
 const FEEDBACK_DURATION_MS = 2000
 
 const status = ref<CopyStatus>('idle')
-// Bumped on every feedback so the error icon remounts and its shake replays on repeated failures.
 const feedbackId = ref(0)
 let resetTimer: ReturnType<typeof setTimeout> | undefined
 
@@ -55,7 +52,6 @@ const copy = async () => {
   }
 }
 
-// Feedback only applies to the text that was (or failed to be) copied.
 watch(
   () => props.text,
   () => {
@@ -162,7 +158,6 @@ onBeforeUnmount(clearResetTimer)
   }
 }
 
-/* Visually hidden, still announced by screen readers. */
 .copy-button__status {
   position: absolute;
   width: 1px;

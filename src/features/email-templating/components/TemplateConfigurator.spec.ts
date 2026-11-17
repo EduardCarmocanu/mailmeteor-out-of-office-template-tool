@@ -11,9 +11,6 @@ import type { TemplateConfiguration } from '../models/TemplateConfiguration.mode
 
 const { templateConfiguration } = useTemplateConfiguration()
 
-// The configuration lives in module-level state, so it must be reset between tests.
-// Awaiting the next tick flushes the composable's date-ordering watchers triggered by
-// the reset, so they do not run later and interfere with the user interaction under test.
 async function resetConfiguration(overrides: Partial<TemplateConfiguration> = {}) {
   templateConfiguration.value = {
     name: '',

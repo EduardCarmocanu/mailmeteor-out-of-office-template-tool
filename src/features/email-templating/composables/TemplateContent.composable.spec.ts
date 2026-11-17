@@ -11,7 +11,6 @@ import type { Reason } from '../models/Reason.model.ts'
 import type { TemplateConfiguration } from '../models/TemplateConfiguration.model.ts'
 import type { Tone } from '../models/Tone.model.ts'
 
-// Local-midnight calendar days, as produced by the date input.
 const MONDAY_DEC_21 = new Date(2026, 11, 21)
 const MONDAY_JAN_4 = new Date(2027, 0, 4)
 
@@ -282,7 +281,6 @@ describe('generateTemplate', () => {
 describe('useTemplateContent', () => {
   let scope: EffectScope | undefined
 
-  // Runs the composable in an effect scope so its watcher is stopped after each test.
   function setup(overrides: Partial<TemplateConfiguration> = {}) {
     const configuration = reactive(makeConfiguration(overrides))
     scope = effectScope()
@@ -478,7 +476,6 @@ describe('useTemplateContent', () => {
     })
 
     it('replaces manual edits even when the change does not alter the generated message', async () => {
-      // With no backup name the backup email is unused, but editing it still regenerates.
       const { configuration, subject, isEdited } = setup({ backupName: '', backupEmail: '' })
 
       subject.value = 'Custom subject'

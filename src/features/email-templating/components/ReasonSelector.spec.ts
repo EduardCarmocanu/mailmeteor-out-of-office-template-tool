@@ -17,7 +17,6 @@ function mountReasonSelector(props: Partial<InstanceType<typeof ReasonSelector>[
   return mount(ReasonSelector, { props })
 }
 
-/** Mounts the selector with a parent-controlled v-model that applies every emitted update. */
 function mountWithVModel(initial: Reason) {
   const wrapper: VueWrapper = mount(ReasonSelector, {
     props: {

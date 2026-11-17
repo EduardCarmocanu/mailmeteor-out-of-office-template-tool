@@ -43,10 +43,6 @@ withDefaults(
     box-shadow 0.15s ease;
 }
 
-/*
- * Reserve the width of the bold (selected) label with an invisible copy,
- * so the pill doesn't resize when it becomes selected.
- */
 .pill-button__label {
   display: inline-flex;
   flex-direction: column;

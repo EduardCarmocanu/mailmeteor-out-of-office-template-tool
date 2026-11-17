@@ -7,8 +7,6 @@ type UseTemplateConfiguration =
 
 let useTemplateConfiguration: UseTemplateConfiguration
 
-// The configuration and its watchers live at module level, so each test loads a fresh copy
-// of the module to start from the default state with its own watchers.
 beforeEach(async () => {
   vi.resetModules()
   ;({ useTemplateConfiguration } = await import('./TemplateConfiguration.composable.ts'))
