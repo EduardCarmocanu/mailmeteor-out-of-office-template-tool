@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useId } from 'vue'
+import CopyButton from '../../../shared/components/CopyButton.vue'
 
 const subject = defineModel<string>({ default: '' })
 
@@ -16,6 +17,7 @@ const subjectId = useId()
       type="text"
       autocomplete="off"
     />
+    <CopyButton class="message-subject__copy" :text="subject" label="Copy subject" />
   </div>
 </template>
 
@@ -24,13 +26,18 @@ const subjectId = useId()
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 12px 10px 18px;
+  /* Right padding lines the copy button up with the message body's. */
+  padding: 10px 16px 10px 18px;
 }
 
 .message-subject__label {
   flex: none;
   font-size: 14px;
   color: #6b7190;
+}
+
+.message-subject__copy {
+  flex: none;
 }
 
 .message-subject__field {
