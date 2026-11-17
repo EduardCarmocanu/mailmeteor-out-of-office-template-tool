@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import MessageBodyEditor from './MessageBodyEditor.vue'
 import MessageSubjectEditor from './MessageSubjectEditor.vue'
+import { useEmailTemplate } from '../composables/EmailTemplate.composable.ts'
 
-defineProps<{
-  /** Generated message text, re-rendered whenever it changes. */
-  body: string
-}>()
-
-const subject = defineModel<string>('subject', { default: '' })
+const { subject, body } = useEmailTemplate()
 </script>
 
 <template>

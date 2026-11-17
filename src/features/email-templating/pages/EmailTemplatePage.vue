@@ -1,30 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import Panel from '../../../shared/components/Panel.vue'
 import MessageTemplateEditor from '../components/MessageTemplateEditor.vue'
 import TemplateConfigurator from '../components/TemplateConfigurator.vue'
-
-// Placeholder content until the message is generated from the configuration.
-const subject = ref('Out of office until Jan 4')
-const body = ref(
-  [
-    'Hello,',
-    'Thank you for your email. I am away for the holidays since Monday, December 21 and will be back on Monday, January 4, with limited access to email in the meantime.',
-    'I will respond to your message as soon as possible after my return.',
-    'Kind regards,\n[Your name]',
-  ].join('\n\n'),
-)
 </script>
 
 <template>
   <div class="template-editor-page">
     <Panel class="template-editor-page__main-configuration">
       <TemplateConfigurator class="template-editor-page__column" />
-      <MessageTemplateEditor
-        v-model:subject="subject"
-        class="template-editor-page__column"
-        :body="body"
-      />
+      <MessageTemplateEditor class="template-editor-page__column" />
     </Panel>
     <div class="template-editor-page__pre-configurations">
       <Panel class="template-editor-page__preset" variant="secondary">

@@ -1,26 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import TextInput from '../../../shared/components/TextInput.vue'
 import EmailInput from '../../../shared/components/EmailInput.vue'
 import DateInput from '../../../shared/components/DateInput.vue'
 import CollapsibleSection from '../../../shared/components/CollapsibleSection.vue'
 import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
-import { todayIso } from '../../../shared/utils/date.ts'
+import { useEmailTemplate } from '../composables/EmailTemplate.composable.ts'
 
-const form = ref({
-  name: '',
-  firstDayAway: '',
-  backOn: '',
-  tone: 'formal',
-  reason: 'vacation',
-  backupName: '',
-  backupEmail: '',
-})
-
-const today = todayIso()
-// "Back on" can't be before "First day away"; until that is set, it can't be in the past.
-const backOnMin = computed(() => form.value.firstDayAway || today)
+const { templateConfigurationForm: form, today, backOnMin } = useEmailTemplate()
 </script>
 
 <template>
