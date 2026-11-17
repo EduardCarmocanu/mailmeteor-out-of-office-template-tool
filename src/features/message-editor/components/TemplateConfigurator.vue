@@ -3,10 +3,12 @@ import { ref } from 'vue'
 import TextInput from '../../../shared/components/TextInput.vue'
 import CollapsibleSection from '../../../shared/components/CollapsibleSection.vue'
 import ToneSelector from './ToneSelector.vue'
+import ReasonSelector from './ReasonSelector.vue'
 
 const form = ref({
   name: '',
   tone: 'formal',
+  reason: 'vacation',
 })
 </script>
 
@@ -15,7 +17,7 @@ const form = ref({
     <TextInput v-model="form.name" :label="'Your Name'" :placeholder="'e.g. Jordan Lee'" />
     <ToneSelector v-model="form.tone" />
     <CollapsibleSection title="Advanced options" subtitle="Reason, backup contact">
-      <p>Advanced options content goes here.</p>
+      <ReasonSelector v-model="form.reason" />
     </CollapsibleSection>
   </div>
 </template>
