@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useId } from 'vue'
+import ChevronDownIcon from '@/assets/icons/chevron-down.svg?component'
 
 defineProps<{
   title: string
@@ -26,23 +27,11 @@ const toggle = () => {
     >
       <span class="collapsible-section__title">{{ title }}</span>
       <span v-if="subtitle" class="collapsible-section__subtitle">{{ subtitle }}</span>
-      <svg
+      <ChevronDownIcon
         class="collapsible-section__chevron"
         :class="{ 'collapsible-section__chevron--open': open }"
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
         aria-hidden="true"
-      >
-        <path
-          d="M4 6l4 4 4-4"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      />
     </button>
     <div v-show="open" :id="contentId" class="collapsible-section__content">
       <slot />

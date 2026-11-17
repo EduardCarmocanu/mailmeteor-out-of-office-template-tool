@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import CheckIcon from '@/assets/icons/check.svg?component'
+import CopyIcon from '@/assets/icons/copy.svg?component'
+import CrossIcon from '@/assets/icons/cross.svg?component'
 
 const { text, label = 'Copy' } = defineProps<{
   /** Text written to the clipboard on click. */
@@ -8,10 +11,20 @@ const { text, label = 'Copy' } = defineProps<{
   label?: string
 }>()
 
-const COPIED_DURATION_MS = 2000
+type CopyStatus = 'idle' | 'copied' | 'error'
 
-const copied = ref(false)
+const FEEDBACK_DURATION_MS = 2000
+
+const status = ref<CopyStatus>('idle')
+// Bumped on every feedback so the error icon remounts and its shake replays on repeated failures.
+const feedbackId = ref(0)
 let resetTimer: ReturnType<typeof setTimeout> | undefined
+
+const statusLabel = computed(() => {
+  if (status.value === 'copied') return 'Copied'
+  if (status.value === 'error') return 'Copy failed'
+  return ''
+})
 
 const clearResetTimer = () => {
   if (resetTimer !== undefined) {
@@ -20,31 +33,31 @@ const clearResetTimer = () => {
   }
 }
 
+const showFeedback = (next: Exclude<CopyStatus, 'idle'>) => {
+  clearResetTimer()
+  status.value = next
+  feedbackId.value++
+  resetTimer = setTimeout(() => {
+    status.value = 'idle'
+    resetTimer = undefined
+  }, FEEDBACK_DURATION_MS)
+}
+
 const copy = async () => {
   try {
-    // `navigator.clipboard` is undefined outside secure contexts.
-    if (!navigator.clipboard) throw new Error('Clipboard API unavailable')
     await navigator.clipboard.writeText(text)
-
-    clearResetTimer()
-    copied.value = true
-    resetTimer = setTimeout(() => {
-      copied.value = false
-      resetTimer = undefined
-    }, COPIED_DURATION_MS)
+    showFeedback('copied')
   } catch {
-    // Copy errors are intentionally not surfaced to the user for now.
-    clearResetTimer()
-    copied.value = false
+    showFeedback('error')
   }
 }
 
-// The check mark only applies to the text that was copied.
+// Feedback only applies to the text that was (or failed to be) copied.
 watch(
   () => text,
   () => {
     clearResetTimer()
-    copied.value = false
+    status.value = 'idle'
   },
 )
 
@@ -55,49 +68,36 @@ onBeforeUnmount(clearResetTimer)
   <button
     type="button"
     class="copy-button"
-    :class="{ 'copy-button--copied': copied }"
-    :aria-label="copied ? 'Copied' : label"
+    :class="{
+      'copy-button--copied': status === 'copied',
+      'copy-button--error': status === 'error',
+    }"
+    :aria-label="statusLabel || label"
     @click="copy"
   >
-    <svg
-      v-if="copied"
+    <CheckIcon
+      v-if="status === 'copied'"
       class="copy-button__icon"
       data-icon="check"
-      width="18"
-      height="18"
-      viewBox="0 0 18 18"
-      fill="none"
       aria-hidden="true"
       focusable="false"
-    >
-      <path
-        d="M3.5 9.5l3.5 3.5 7.5-8"
-        stroke="currentColor"
-        stroke-width="1.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-    <svg
+    />
+    <CrossIcon
+      v-else-if="status === 'error'"
+      :key="feedbackId"
+      class="copy-button__icon copy-button__icon--shake"
+      data-icon="error"
+      aria-hidden="true"
+      focusable="false"
+    />
+    <CopyIcon
       v-else
       class="copy-button__icon"
       data-icon="copy"
-      width="18"
-      height="18"
-      viewBox="0 0 18 18"
-      fill="none"
       aria-hidden="true"
       focusable="false"
-    >
-      <path
-        d="M3 12V4.5A1.5 1.5 0 0 1 4.5 3H11"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-      <rect x="6" y="6" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5" />
-    </svg>
-    <span class="copy-button__status" aria-live="polite">{{ copied ? 'Copied' : '' }}</span>
+    />
+    <span class="copy-button__status" aria-live="polite">{{ statusLabel }}</span>
   </button>
 </template>
 
@@ -128,6 +128,35 @@ onBeforeUnmount(clearResetTimer)
 
 .copy-button--copied {
   color: #2f9e62;
+}
+
+.copy-button--error {
+  color: #d14343;
+}
+
+.copy-button__icon--shake {
+  animation: copy-button-shake 0.4s ease-in-out;
+}
+
+@keyframes copy-button-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-2px);
+  }
+  40%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-button__icon--shake {
+    animation: none;
+  }
 }
 
 /* Visually hidden, still announced by screen readers. */

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, useId, useTemplateRef, watch } from 'vue'
+import CalendarIcon from '@/assets/icons/calendar.svg?component'
 import InputLabel from './InputLabel.vue'
 import { formatDisplayDate, parseIsoDate, startOfDay, toIsoDate } from '../utils/date'
 
@@ -131,13 +132,7 @@ const onNativeChange = (event: Event) => {
         :aria-label="`Choose ${label} from calendar`"
         @click="openPicker"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          <path
-            fill="currentColor"
-            fill-rule="evenodd"
-            d="M4 1h1.5v1.5h5V1H12v1.5h1A1.5 1.5 0 0 1 14.5 4v9a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 13V4A1.5 1.5 0 0 1 3 2.5h1V1Zm-1 5v7h10V6H3Z"
-          />
-        </svg>
+        <CalendarIcon aria-hidden="true" focusable="false" />
       </button>
     </div>
     <p v-if="error" :id="errorId" class="date-input__error" role="alert">
