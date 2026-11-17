@@ -1,12 +1,22 @@
 import { ref, watch } from 'vue'
 import { today as getToday } from '../../../shared/utils/date.ts'
 
+export type Tone = 'formal' | 'friendly' | 'funny' | 'short'
+
+export type Reason =
+  | 'vacation'
+  | 'holidays'
+  | 'business-trip'
+  | 'conference'
+  | 'sick-leave'
+  | 'parental-leave'
+
 export interface TemplateConfiguration {
   name: string
   firstDayAway: Date | null
   backOn: Date | null
-  tone: string
-  reason: string
+  tone: Tone
+  reason: Reason
   backupName: string
   backupEmail: string
 }

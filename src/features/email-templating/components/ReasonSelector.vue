@@ -2,11 +2,12 @@
 import { useId } from 'vue'
 import InputLabel from '../../../shared/components/InputLabel.vue'
 import PillButton from '../../../shared/components/PillButton.vue'
+import type { Reason } from '../composables/EmailTemplate.composable.ts'
 
-const reason = defineModel<string>({ default: 'vacation' })
+const reason = defineModel<Reason>({ default: 'vacation' })
 const labelId = useId()
 
-const reasons = [
+const reasons: { label: string; value: Reason }[] = [
   { label: 'Vacation', value: 'vacation' },
   { label: 'Holidays', value: 'holidays' },
   { label: 'Business trip', value: 'business-trip' },
