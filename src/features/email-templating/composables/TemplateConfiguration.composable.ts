@@ -32,17 +32,6 @@ const templateConfigurationForm = ref<TemplateConfiguration>({
   backupEmail: '',
 })
 
-// Placeholder content until the message is generated from the configuration.
-const subject = ref('Out of office until Jan 4')
-const body = ref(
-  [
-    'Hello,',
-    'Thank you for your email. I am away for the holidays since Monday, December 21 and will be back on Monday, January 4, with limited access to email in the meantime.',
-    'I will respond to your message as soon as possible after my return.',
-    'Kind regards,\n[Your name]',
-  ].join('\n\n'),
-)
-
 // Keep "Back on" from falling before "First day away" by moving it forward.
 watch(
   () => templateConfigurationForm.value.firstDayAway,
@@ -65,8 +54,8 @@ watch(
   },
 )
 
-export function useEmailTemplate() {
+export function useTemplateConfiguration() {
   const today = getToday()
 
-  return { templateConfigurationForm, today, subject, body }
+  return { templateConfigurationForm, today }
 }

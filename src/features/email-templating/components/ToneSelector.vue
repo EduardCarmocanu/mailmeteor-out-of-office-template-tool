@@ -2,7 +2,7 @@
 import { useId } from 'vue'
 import SwitchBar, { type SwitchBarOption } from '../../../shared/components/SwitchBar.vue'
 import InputLabel from '../../../shared/components/InputLabel.vue'
-import type { Tone } from '../composables/EmailTemplate.composable.ts'
+import type { Tone } from '../composables/TemplateConfiguration.composable.ts'
 
 const tone = defineModel<Tone>({ default: 'formal' })
 const id = useId()
@@ -18,10 +18,6 @@ const tones: SwitchBarOption<Tone>[] = [
 <template>
   <div class="tone-selector">
     <InputLabel :for="id">Tone</InputLabel>
-    <SwitchBar
-      name="tone selector"
-      v-model="tone"
-      :options="tones"
-    />
+    <SwitchBar name="tone selector" v-model="tone" :options="tones" />
   </div>
 </template>

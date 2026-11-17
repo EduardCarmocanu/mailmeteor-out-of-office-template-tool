@@ -5,9 +5,9 @@ import DateInput from '../../../shared/components/DateInput.vue'
 import CollapsibleSection from '../../../shared/components/CollapsibleSection.vue'
 import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
-import { useEmailTemplate } from '../composables/EmailTemplate.composable.ts'
+import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'
 
-const { templateConfigurationForm: form, today } = useEmailTemplate()
+const { templateConfigurationForm: form, today } = useTemplateConfiguration()
 </script>
 
 <template>

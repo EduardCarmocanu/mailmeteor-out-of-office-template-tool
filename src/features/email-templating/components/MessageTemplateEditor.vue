@@ -1,24 +1,41 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import MessageBodyEditor from './MessageBodyEditor.vue'
+import MessageEditorControls from './MessageEditorControls.vue'
 import MessageSubjectEditor from './MessageSubjectEditor.vue'
-import { useEmailTemplate } from '../composables/EmailTemplate.composable.ts'
+import { useTemplateContent } from '../composables/TemplateContent.composable.ts'
 
-const { subject, body } = useEmailTemplate()
+const { subject, body, isEdited } = useTemplateContent()
+
+const wordCount = computed(() => body.value.trim().split(/\s+/).filter(Boolean).length)
 </script>
 
 <template>
   <div class="message-template-editor">
-    <MessageSubjectEditor v-model="subject" class="message-template-editor__subject" />
-    <MessageBodyEditor class="message-template-editor__body" v-model="body" />
+    <div class="message-template-editor__box">
+      <MessageSubjectEditor v-model="subject" class="message-template-editor__subject" />
+      <MessageBodyEditor class="message-template-editor__body" v-model="body" />
+    </div>
+    <MessageEditorControls
+      class="message-template-editor__controls"
+      :word-count="wordCount"
+      :edited="isEdited"
+    />
   </div>
 </template>
 
 <style scoped>
 .message-template-editor {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.message-template-editor__box {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   min-height: 420px;
   border: 1px solid #e6e8ef;
   border-radius: 6px;
@@ -31,5 +48,9 @@ const { subject, body } = useEmailTemplate()
 
 .message-template-editor__body {
   flex: 1;
+}
+
+.message-template-editor__controls {
+  padding-top: 14px;
 }
 </style>

@@ -2,7 +2,7 @@
 import { useId } from 'vue'
 import InputLabel from '../../../shared/components/InputLabel.vue'
 import PillButton from '../../../shared/components/PillButton.vue'
-import type { Reason } from '../composables/EmailTemplate.composable.ts'
+import type { Reason } from '../composables/TemplateConfiguration.composable.ts'
 
 const reason = defineModel<Reason>({ default: 'vacation' })
 const labelId = useId()
