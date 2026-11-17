@@ -1,4 +1,25 @@
 import { test, expect, type Page } from '@playwright/test'
+import {
+  BACK_ON_LABEL,
+  BACKUP_EMAIL,
+  BACKUP_NAME,
+  FIRST_DAY_AWAY_LABEL,
+  LEAVE_END,
+  LEAVE_START,
+  PINNED_TODAY,
+  SENDER_NAME,
+  backupEmailField,
+  backupNameField,
+  expandAdvancedOptions,
+  leaveEndField,
+  leaveStartField,
+  messageField,
+  nameField,
+  pickDateThroughHiddenNativeInput,
+  reasonGroup,
+  subjectField,
+  toneGroup,
+} from './support/page.ts'
 
 const REASONS = [
   'Vacation',
@@ -22,16 +43,6 @@ interface PresetExpectation {
   tone: ToneLabel
   subject: string
   body: string
-}
-
-const FIELDS_NOT_SET_BY_PRESETS = {
-  name: 'Jordan Lee',
-  leaveStartIso: '2026-12-21',
-  leaveStartDisplay: '21/12/2026',
-  leaveEndIso: '2027-01-04',
-  leaveEndDisplay: '04/01/2027',
-  backupName: 'Sam Patel',
-  backupEmail: 'sam@company.com',
 }
 
 const PRESETS_IN_CLICK_ORDER: PresetExpectation[] = [
@@ -90,36 +101,8 @@ const PRESETS_IN_CLICK_ORDER: PresetExpectation[] = [
   },
 ]
 
-const FIXED_TODAY = new Date(2026, 10, 17, 10, 0, 0)
-
 const presetButton = (page: Page, description: string) =>
   page.getByRole('button', { name: description, exact: true })
-
-const reasonGroup = (page: Page) => page.getByRole('group', { name: 'Reason' })
-const toneGroup = (page: Page) => page.getByRole('radiogroup', { name: 'Tone' })
-
-const nameField = (page: Page) => page.getByRole('textbox', { name: 'Your Name' })
-const leaveStartField = (page: Page) =>
-  page.getByRole('textbox', { name: 'First day away', exact: true })
-const leaveEndField = (page: Page) => page.getByRole('textbox', { name: 'Back on', exact: true })
-const backupNameField = (page: Page) => page.getByRole('textbox', { name: 'Backup contact' })
-const backupEmailField = (page: Page) => page.getByRole('textbox', { name: 'Their email' })
-const subjectField = (page: Page) => page.getByRole('textbox', { name: 'Subject:' })
-const messageField = (page: Page) => page.getByRole('textbox', { name: 'Message', exact: true })
-
-async function fillHiddenNativeDateInput(page: Page, label: string, isoDate: string) {
-  await page
-    .locator('.date-input')
-    .filter({ has: page.getByText(label, { exact: true }) })
-    .locator('input[type="date"]')
-    .fill(isoDate)
-}
-
-async function expandAdvancedOptions(page: Page) {
-  const toggle = page.getByRole('button', { name: /Advanced options/ })
-  await toggle.click()
-  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
-}
 
 async function expectSelectedReason(page: Page, selected: ReasonLabel) {
   for (const reason of REASONS) {
@@ -133,25 +116,21 @@ async function expectSelectedReason(page: Page, selected: ReasonLabel) {
 async function expectSelectedTone(page: Page, selected: ToneLabel) {
   for (const tone of TONES) {
     const radio = toneGroup(page).getByRole('radio', { name: tone, exact: true })
-    if (tone === selected) {
-      await expect(radio, `tone "${tone}"`).toBeChecked()
-    } else {
-      await expect(radio, `tone "${tone}"`).not.toBeChecked()
-    }
+    await expect(radio, `tone "${tone}"`).toBeChecked({ checked: tone === selected })
   }
 }
 
 async function expectKeptFields(page: Page) {
-  await expect(nameField(page)).toHaveValue(FIELDS_NOT_SET_BY_PRESETS.name)
-  await expect(leaveStartField(page)).toHaveValue(FIELDS_NOT_SET_BY_PRESETS.leaveStartDisplay)
-  await expect(leaveEndField(page)).toHaveValue(FIELDS_NOT_SET_BY_PRESETS.leaveEndDisplay)
-  await expect(backupNameField(page)).toHaveValue(FIELDS_NOT_SET_BY_PRESETS.backupName)
-  await expect(backupEmailField(page)).toHaveValue(FIELDS_NOT_SET_BY_PRESETS.backupEmail)
+  await expect(nameField(page)).toHaveValue(SENDER_NAME)
+  await expect(leaveStartField(page)).toHaveValue(LEAVE_START.display)
+  await expect(leaveEndField(page)).toHaveValue(LEAVE_END.display)
+  await expect(backupNameField(page)).toHaveValue(BACKUP_NAME)
+  await expect(backupEmailField(page)).toHaveValue(BACKUP_EMAIL)
 }
 
 test.describe('Template presets', () => {
   test.beforeEach(async ({ page }) => {
-    await page.clock.setFixedTime(FIXED_TODAY)
+    await page.clock.setFixedTime(PINNED_TODAY)
     await page.goto('/')
   })
 
@@ -164,12 +143,12 @@ test.describe('Template presets', () => {
   test('applies the reason and tone of each preset in turn, keeping the other fields', async ({
     page,
   }) => {
-    await nameField(page).fill(FIELDS_NOT_SET_BY_PRESETS.name)
-    await fillHiddenNativeDateInput(page, 'First day away', FIELDS_NOT_SET_BY_PRESETS.leaveStartIso)
-    await fillHiddenNativeDateInput(page, 'Back on', FIELDS_NOT_SET_BY_PRESETS.leaveEndIso)
+    await nameField(page).fill(SENDER_NAME)
+    await pickDateThroughHiddenNativeInput(page, FIRST_DAY_AWAY_LABEL, LEAVE_START.iso)
+    await pickDateThroughHiddenNativeInput(page, BACK_ON_LABEL, LEAVE_END.iso)
     await expandAdvancedOptions(page)
-    await backupNameField(page).fill(FIELDS_NOT_SET_BY_PRESETS.backupName)
-    await backupEmailField(page).fill(FIELDS_NOT_SET_BY_PRESETS.backupEmail)
+    await backupNameField(page).fill(BACKUP_NAME)
+    await backupEmailField(page).fill(BACKUP_EMAIL)
 
     await expectSelectedReason(page, DEFAULT_REASON)
     await expectSelectedTone(page, DEFAULT_TONE)

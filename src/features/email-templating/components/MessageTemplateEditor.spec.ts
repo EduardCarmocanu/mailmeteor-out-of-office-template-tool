@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import MessageTemplateEditor from './MessageTemplateEditor.vue'
 import MessageEditorControls from './MessageEditorControls.vue'
 import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'
+import { generateTemplate } from '../composables/TemplateContent.composable.ts'
 import type { TemplateConfiguration } from '../models/TemplateConfiguration.model.ts'
 
 const { templateConfiguration } = useTemplateConfiguration()
@@ -261,14 +262,16 @@ describe('MessageTemplateEditor', () => {
       )
     })
 
-    it('does not regenerate when the configuration object is replaced', async () => {
+    it('regenerates when the configuration object is replaced', async () => {
       const wrapper = mountEditor()
 
       resetConfiguration({ name: 'Grace', tone: 'formal' })
       await wrapper.vm.$nextTick()
 
-      expect(subjectInput(wrapper).element.value).toBe(SHORT_SUBJECT)
-      expect(bodyTextarea(wrapper).element.value).toBe(SHORT_BODY)
+      const expected = generateTemplate(templateConfiguration.value)
+      expect(subjectInput(wrapper).element.value).toBe(expected.subject)
+      expect(bodyTextarea(wrapper).element.value).toBe(expected.body)
+      expect(bodyTextarea(wrapper).element.value).toContain('Kind regards,\nGrace')
     })
   })
 })

@@ -26,7 +26,12 @@ const today = getToday()
         :min="today"
         :max="null"
       />
-      <DateInput v-model="templateConfiguration.leaveEnd" label="Back on" :min="today" :max="null" />
+      <DateInput
+        v-model="templateConfiguration.leaveEnd"
+        label="Back on"
+        :min="today"
+        :max="null"
+      />
     </div>
     <ToneSelector v-model="templateConfiguration.tone" />
     <CollapsibleSection

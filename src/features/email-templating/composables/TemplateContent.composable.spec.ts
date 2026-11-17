@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { effectScope, nextTick, reactive, type EffectScope } from 'vue'
+import { effectScope, nextTick, reactive, ref, type EffectScope } from 'vue'
 import {
   BASE_TEMPLATES,
   generateTemplate,
@@ -486,15 +486,30 @@ describe('useTemplateContent', () => {
       expect(isEdited.value).toBe(false)
     })
 
-    it('does not track a configuration object that replaces the one it was given', async () => {
+    it('regenerates when a configuration ref is reassigned', async () => {
+      const configuration = ref(makeConfiguration())
+      scope = effectScope()
+      const { subject, body } = scope.run(() => useTemplateContent(configuration))!
+
+      configuration.value = makeConfiguration({ tone: 'funny' })
+      await nextTick()
+
+      const expected = generateTemplate(configuration.value)
+      expect(subject.value).toBe(expected.subject)
+      expect(body.value).toBe(expected.body)
+    })
+
+    it('regenerates when a getter returns a replaced configuration', async () => {
       const state = reactive({ configuration: makeConfiguration() })
       scope = effectScope()
-      const { subject } = scope.run(() => useTemplateContent(state.configuration))!
+      const { subject, body } = scope.run(() => useTemplateContent(() => state.configuration))!
 
       state.configuration = makeConfiguration({ tone: 'funny' })
       await nextTick()
 
-      expect(subject.value).toBe('Out of office until Jan 4')
+      const expected = generateTemplate(state.configuration)
+      expect(subject.value).toBe(expected.subject)
+      expect(body.value).toBe(expected.body)
     })
   })
 })

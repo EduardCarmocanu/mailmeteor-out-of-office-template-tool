@@ -17,7 +17,7 @@ export default defineConfig({
 
     trace: 'on-first-retry',
 
-    headless: !!process.env.CI,
+    headless: true,
   },
 
   projects: [
@@ -42,7 +42,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: process.env.CI ? 'npm run preview' : 'npm run dev',
+    command: process.env.CI ? 'pnpm build-only && pnpm preview' : 'pnpm dev',
     port: process.env.CI ? 4173 : 5173,
     reuseExistingServer: !process.env.CI,
   },

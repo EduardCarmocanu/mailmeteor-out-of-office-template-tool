@@ -30,8 +30,7 @@ function mountConfigurator() {
 }
 
 const nameInput = (wrapper: VueWrapper) => wrapper.find('input[placeholder="e.g. Jordan Lee"]')
-const backupNameInput = (wrapper: VueWrapper) =>
-  wrapper.find('input[placeholder="e.g. Sam Patel"]')
+const backupNameInput = (wrapper: VueWrapper) => wrapper.find('input[placeholder="e.g. Sam Patel"]')
 const backupEmailInput = (wrapper: VueWrapper) =>
   wrapper.find('input[placeholder="sam@company.com"]')
 const dateFields = (wrapper: VueWrapper) => wrapper.findAll('.date-input__field')
@@ -204,9 +203,7 @@ describe('TemplateConfigurator', () => {
       expect((findToneRadio(wrapper, 'friendly').element as HTMLInputElement).checked).toBe(true)
       expect(findPill(wrapper, 'Conference').attributes('aria-pressed')).toBe('true')
       expect((backupNameInput(wrapper).element as HTMLInputElement).value).toBe('Sam Patel')
-      expect((backupEmailInput(wrapper).element as HTMLInputElement).value).toBe(
-        'sam@company.com',
-      )
+      expect((backupEmailInput(wrapper).element as HTMLInputElement).value).toBe('sam@company.com')
     })
 
     it('shows empty fields and the default tone and reason for a fresh configuration', () => {

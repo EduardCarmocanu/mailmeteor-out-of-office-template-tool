@@ -121,8 +121,7 @@ describe('MessageBodyEditor', () => {
       await wrapper.find('button').trigger('click')
       await flushPromises()
 
-      expect(writeText).toHaveBeenCalledOnce()
-      expect(writeText).toHaveBeenCalledWith(MULTI_PARAGRAPH_BODY)
+      expect(writeText).toHaveBeenCalledExactlyOnceWith(MULTI_PARAGRAPH_BODY)
     })
 
     it('copies what the user typed even without a parent v-model binding', async () => {

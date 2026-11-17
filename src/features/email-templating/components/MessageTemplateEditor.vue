@@ -7,7 +7,7 @@ import { useTemplateConfiguration } from '../composables/TemplateConfiguration.c
 import { useTemplateContent } from '../composables/TemplateContent.composable.ts'
 
 const { templateConfiguration } = useTemplateConfiguration()
-const { subject, body, isEdited, reset } = useTemplateContent(templateConfiguration.value)
+const { subject, body, isEdited, reset } = useTemplateContent(templateConfiguration)
 
 const wordCount = computed(() => body.value.trim().split(/\s+/).filter(Boolean).length)
 </script>

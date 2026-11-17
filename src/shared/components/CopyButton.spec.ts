@@ -87,8 +87,7 @@ describe('CopyButton', () => {
 
       await clickAndSettle(wrapper)
 
-      expect(writeText).toHaveBeenCalledOnce()
-      expect(writeText).toHaveBeenCalledWith('Out of office until Monday')
+      expect(writeText).toHaveBeenCalledExactlyOnceWith('Out of office until Monday')
     })
 
     it('shows the copied feedback', async () => {

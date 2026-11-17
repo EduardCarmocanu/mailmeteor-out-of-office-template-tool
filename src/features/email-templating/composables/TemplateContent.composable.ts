@@ -1,4 +1,4 @@
-import { computed, ref, watch } from 'vue'
+import { computed, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
 import { formatLongDate, formatShortDate } from '../../../shared/utils/date.ts'
 import type { Reason } from '../models/Reason.model.ts'
 import type { TemplateConfiguration } from '../models/TemplateConfiguration.model.ts'
@@ -23,10 +23,10 @@ const LEAVE_START_PLACEHOLDER = '[first day away]'
 const LEAVE_END_PLACEHOLDER = '[back on]'
 
 const REASON_PHRASES: Record<Reason, string> = {
-  'vacation': 'on vacation',
-  'holidays': 'away for the holidays',
+  vacation: 'on vacation',
+  holidays: 'away for the holidays',
   'business-trip': 'on a business trip',
-  'conference': 'at a conference',
+  conference: 'at a conference',
   'sick-leave': 'on sick leave',
   'parental-leave': 'on parental leave',
 }
@@ -105,8 +105,11 @@ export function generateTemplate(config: TemplateConfiguration): Template {
   return BASE_TEMPLATES[config.tone](toTemplateValues(config))
 }
 
-export function useTemplateContent(configuration: TemplateConfiguration) {
-  const generated = computed(() => generateTemplate(configuration))
+// Takes a ref or getter rather than the configuration object itself so the message keeps
+// regenerating when the whole configuration is replaced (e.g. `templateConfiguration.value = {...}`).
+// Passing `ref.value` would capture a single object and silently stop tracking after reassignment.
+export function useTemplateContent(configuration: MaybeRefOrGetter<TemplateConfiguration>) {
+  const generated = computed(() => generateTemplate(toValue(configuration)))
 
   const subject = ref(generated.value.subject)
   const body = ref(generated.value.body)
