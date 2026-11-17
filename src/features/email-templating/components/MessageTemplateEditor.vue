@@ -9,7 +9,7 @@ const { subject, body } = useEmailTemplate()
 <template>
   <div class="message-template-editor">
     <MessageSubjectEditor v-model="subject" class="message-template-editor__subject" />
-    <MessageBodyEditor class="message-template-editor__body" :body="body" />
+    <MessageBodyEditor class="message-template-editor__body" v-model="body" />
   </div>
 </template>
 
