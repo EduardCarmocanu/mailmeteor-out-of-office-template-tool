@@ -5,6 +5,7 @@ import InputLabel from './InputLabel.vue'
 defineProps<{
   label: string
   placeholder: string
+  optional?: boolean
 }>()
 
 const model = defineModel<string>({ default: '' })
@@ -15,7 +16,7 @@ const id = useId()
 
 <template>
   <div class="text-input">
-    <InputLabel v-if="label" :for="id">{{ label }}</InputLabel>
+    <InputLabel :for="id" :optional="optional">{{ label }}</InputLabel>
     <input
       :id="id"
       v-model="model"

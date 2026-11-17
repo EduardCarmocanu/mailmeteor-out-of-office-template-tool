@@ -10,6 +10,7 @@ const form = ref({
   name: '',
   tone: 'formal',
   reason: 'vacation',
+  backupName: '',
   backupEmail: '',
 })
 </script>
@@ -20,6 +21,12 @@ const form = ref({
     <ToneSelector v-model="form.tone" />
     <CollapsibleSection title="Advanced options" subtitle="Reason, backup contact">
       <ReasonSelector v-model="form.reason" />
+      <TextInput
+        v-model="form.backupName"
+        label="Backup contact"
+        placeholder="e.g. Sam Patel"
+        optional
+      />
       <EmailInput v-model="form.backupEmail" label="Their email" placeholder="sam@company.com" />
     </CollapsibleSection>
   </div>
