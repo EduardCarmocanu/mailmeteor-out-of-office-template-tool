@@ -2,6 +2,10 @@
 
 This is a mailmeteor tool that helps you write Out of office emails based on a set of predefined templates
 
+## Demo
+
+![Demo of the out of office template tool](docs/demo.gif)
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) `^22.18.0` or `>=24.12.0`
