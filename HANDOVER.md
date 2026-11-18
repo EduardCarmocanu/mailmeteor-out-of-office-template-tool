@@ -49,11 +49,9 @@ Rules to keep the structure consistent:
   - Pages: `<Name>.page.vue` (`EmailTemplate.page.vue`).
   - Composables: `<Name>.composable.ts`, exporting a `use<Name>` function (`TemplateConfiguration.composable.ts`).
   - Models: `<Name>.model.ts`, one main type per file (`Tone.model.ts`).
-  - Infrastructure: PascalCase with a `Client` suffix (`ClipboardClient.ts`).
+  - Infrastructure: PascalCase, named after what the file does, with no required suffix (`ClipboardClient.ts`, `AnalyticsService.ts`, `DraftStore.ts`).
 
 The full conventions, including import rules, are in [CLAUDE.md](CLAUDE.md).
-
-- [ ] Why `useTemplateContent` takes a ref or getter (`MaybeRefOrGetter`) instead of a plain object
 
 ### File conventions
 
@@ -63,7 +61,7 @@ Each kind of file has one job. Code calls downwards only: pages and components â
 - **Component** (`components/<Name>.vue`): a reusable piece of UI. It gets data through props and composables and reports user actions through events. It never calls infrastructure or browser APIs directly. Feature components such as [ToneSelector.vue](src/features/email-templating/components/ToneSelector.vue) can use that feature's models and composables. Shared components such as [TextInput.vue](src/shared/components/forms/TextInput.vue) know nothing about any feature.
 - **Composable** (`composables/<Name>.composable.ts`): state and logic, exported as a `use<Name>` function. Components call composables, and composables call infrastructure whenever they need something outside the app. Composables never import components. Examples: [TemplateConfiguration.composable.ts](src/features/email-templating/composables/TemplateConfiguration.composable.ts) holds the shared configuration state, and [Clipboard.composable.ts](src/shared/composables/Clipboard.composable.ts) wraps copying with "copied" and "error" feedback.
 - **Model** (`models/<Name>.model.ts`): TypeScript types and interfaces, one main type per file, with no runtime behaviour. Example: [Tone.model.ts](src/features/email-templating/models/Tone.model.ts).
-- **Infrastructure** (`infrastructure/<Name>Client.ts`): the only code that leaves the app, such as HTTP calls, `localStorage` or browser services like `navigator.clipboard`. A client is named after the system it wraps and exposes small, typed functions with no Vue reactivity or UI logic. Example: [ClipboardClient.ts](src/shared/infrastructure/ClipboardClient.ts).
+- **Infrastructure** (`infrastructure/<Name>.ts`): the only code that leaves the app, such as HTTP calls, `localStorage` or browser services like `navigator.clipboard`. A file is named after what it does, such as a client, service, store or configuration, and exposes small, typed functions with no Vue reactivity or UI logic. Example: [ClipboardClient.ts](src/shared/infrastructure/ClipboardClient.ts).
 
 In unit tests, mock infrastructure when testing a composable, and mock composables when a component test needs to test the view on its own.
 

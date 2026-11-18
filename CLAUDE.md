@@ -13,7 +13,7 @@ src/
 │       ├── pages/           # top-level page components (`<Name>.page.vue`)
 │       ├── components/      # components used only by this feature
 │       ├── composables/     # feature state and logic (`<Name>.composable.ts`)
-│       ├── infrastructure/  # access to anything outside the app (`<Name>Client.ts`)
+│       ├── infrastructure/  # access to anything outside the app (`<Name>.ts`)
 │       └── models/          # types and interfaces (`<Name>.model.ts`)
 └── shared/
     ├── components/          # generic, feature-agnostic UI components
@@ -30,7 +30,8 @@ e2e/                         # Playwright E2E specs, named after the user flow
   - Pages: PascalCase with `.page.vue` suffix (`EmailTemplate.page.vue`).
   - Composables: PascalCase with `.composable.ts` suffix (`TemplateConfiguration.composable.ts`), exporting a `use<Name>` function.
   - Models: PascalCase with `.model.ts` suffix (`TemplateConfiguration.model.ts`), one main type per file.
-  - Infrastructure: PascalCase with a `Client` suffix (`ClipboardClient.ts`), named after the external system it wraps.- Imports:
+  - Infrastructure: PascalCase, named after what the file does (`ClipboardClient.ts`, `AnalyticsService.ts`, `DraftStore.ts`, `ApiConfiguration.ts`). No suffix is required; pick the one that best describes its role (Client, Service, Store, Configuration, ...).
+- Imports:
   - Use relative paths within `src/` and include the `.ts` extension for TypeScript files (`'../models/Tone.model.ts'`).
   - Use the `@/` alias for assets (`'@/assets/icons/check.svg?component'`).
 
