@@ -277,8 +277,9 @@ VS Code offers to install these when you open the project ([.vscode/extensions.j
 
 ## Choices:
 
-- **Hardcoded templates**: For the purpose of the exercise i've decided to hardcode the templates in the application code because the project has a limited of 4 templates and no back-end requirements.
-- **Date inputs**: For simplicity i've decided to not allow users to manually input date values and instead rely on the native browser date picker.
+- **Hardcoded templates**: For the purpose of the exercise I've decided to hardcode the templates in the application code because the project has a limited of 4 templates and no back-end requirements.
+- **Date inputs**: For simplicity I've decided to not allow users to manually input date values and instead rely on the native browser date picker.
+- **Technology choices**: The stack has been chosen to reflect mailmeteor's tech stack from what I could gather during our conversation. Additinally I've kept third party packages usage to a reduced set to avoid increase the size of this small tool.
 
 ## Potential improvements
 
