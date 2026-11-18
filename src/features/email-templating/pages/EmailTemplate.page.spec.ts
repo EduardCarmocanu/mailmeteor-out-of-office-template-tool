@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import EmailTemplatePage from './EmailTemplatePage.vue'
+import EmailTemplatePage from './EmailTemplate.page.vue'
 import TemplateConfigurator from '../components/TemplateConfigurator.vue'
 import MessageTemplateEditor from '../components/MessageTemplateEditor.vue'
 import TemplatePresetList from '../components/TemplatePresetList.vue'

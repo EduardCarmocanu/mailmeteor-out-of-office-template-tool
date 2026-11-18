@@ -10,7 +10,7 @@ src/
 ├── styles/global.css        # global styles and CSS custom properties (design tokens)
 ├── features/
 │   └── <feature-name>/      # kebab-case, one folder per feature (e.g. email-templating)
-│       ├── pages/           # top-level page components (`<Name>Page.vue`)
+│       ├── pages/           # top-level page components (`<Name>.page.vue`)
 │       ├── components/      # components used only by this feature
 │       ├── composables/     # feature state and logic (`<Name>.composable.ts`)
 │       ├── infrastructure/  # access to anything outside the app (`<Name>Client.ts`)
@@ -26,7 +26,8 @@ e2e/                         # Playwright E2E specs, named after the user flow
 - `src/shared/` must never import from `src/features/`.
 - Only create the subfolders (`pages/`, `components/`, `composables/`, `infrastructure/`, `models/`) a feature actually needs.
 - File naming:
-  - Vue components: PascalCase (`TemplateConfigurator.vue`). Pages end with `Page`.
+  - Vue components: PascalCase (`TemplateConfigurator.vue`).
+  - Pages: PascalCase with `.page.vue` suffix (`EmailTemplate.page.vue`).
   - Composables: PascalCase with `.composable.ts` suffix (`TemplateConfiguration.composable.ts`), exporting a `use<Name>` function.
   - Models: PascalCase with `.model.ts` suffix (`TemplateConfiguration.model.ts`), one main type per file.
   - Infrastructure: PascalCase with a `Client` suffix (`ClipboardClient.ts`), named after the external system it wraps.- Imports:
