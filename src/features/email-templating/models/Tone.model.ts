@@ -1,1 +1,3 @@
-export type Tone = 'formal' | 'friendly' | 'funny' | 'short'
+export const TONES = ['formal', 'friendly', 'funny', 'short'] as const
+
+export type Tone = (typeof TONES)[number]

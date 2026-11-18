@@ -3,7 +3,7 @@ import Panel from '../../../shared/components/layout/Panel.vue'
 import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'
 import type { TemplatePreset } from '../models/TemplatePreset.model.ts'
 
-const { applyPreset } = useTemplateConfiguration()
+const { applyConfiguration } = useTemplateConfiguration()
 
 const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
@@ -35,7 +35,7 @@ const TEMPLATE_PRESETS: TemplatePreset[] = [
       :key="preset.description"
       class="template-preset-list__preset"
       variant="secondary"
-      @click="applyPreset(preset.configuration)"
+      @click="applyConfiguration(preset.configuration)"
     >
       {{ preset.description }}
     </Panel>
