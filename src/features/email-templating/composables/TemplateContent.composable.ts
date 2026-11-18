@@ -1,8 +1,10 @@
 import { computed, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
-import { formatLongDate, formatShortDate } from '../../../shared/utils/date.ts'
+import { useDate } from '../../../shared/composables/Date.composable.ts'
 import type { Reason } from '../models/Reason.model.ts'
 import type { TemplateConfiguration } from '../models/TemplateConfiguration.model.ts'
 import type { Tone } from '../models/Tone.model.ts'
+
+const { formatLongDate, formatShortDate } = useDate()
 
 export interface Template {
   subject: string

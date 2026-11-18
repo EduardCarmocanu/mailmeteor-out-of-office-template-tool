@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import {
+import { useDate } from './Date.composable.ts'
+
+const {
   formatDisplayDate,
   formatLongDate,
   formatShortDate,
@@ -7,9 +9,9 @@ import {
   startOfDay,
   toIsoDate,
   today,
-} from './date'
+} = useDate()
 
-describe('date utils', () => {
+describe('useDate', () => {
   describe('startOfDay', () => {
     it('returns the same calendar day at local midnight', () => {
       const result = startOfDay(new Date(2026, 11, 21, 15, 42, 7, 123))

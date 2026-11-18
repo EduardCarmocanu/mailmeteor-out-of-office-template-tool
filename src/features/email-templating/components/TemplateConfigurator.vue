@@ -6,10 +6,10 @@ import CollapsibleSection from '../../../shared/components/layout/CollapsibleSec
 import ToneSelector from './ToneSelector.vue'
 import ReasonSelector from './ReasonSelector.vue'
 import { useTemplateConfiguration } from '../composables/TemplateConfiguration.composable.ts'
-import { today as getToday } from '../../../shared/utils/date.ts'
+import { useDate } from '../../../shared/composables/Date.composable.ts'
 
 const { templateConfiguration } = useTemplateConfiguration()
-const today = getToday()
+const today = useDate().today()
 </script>
 
 <template>

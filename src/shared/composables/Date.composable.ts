@@ -2,15 +2,15 @@ const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/
 
 const pad = (value: number, length = 2) => String(value).padStart(length, '0')
 
-export const startOfDay = (date: Date): Date =>
+const startOfDay = (date: Date): Date =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-export const today = (): Date => startOfDay(new Date())
+const today = (): Date => startOfDay(new Date())
 
-export const toIsoDate = (date: Date): string =>
+const toIsoDate = (date: Date): string =>
   `${pad(date.getFullYear(), 4)}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 
-export const parseIsoDate = (iso: string): Date | null => {
+const parseIsoDate = (iso: string): Date | null => {
   const match = ISO_DATE_RE.exec(iso)
   if (!match) return null
 
@@ -25,7 +25,7 @@ export const parseIsoDate = (iso: string): Date | null => {
   return date
 }
 
-export const formatDisplayDate = (date: Date | null): string => {
+const formatDisplayDate = (date: Date | null): string => {
   if (date === null) return ''
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${pad(date.getFullYear(), 4)}`
 }
@@ -38,6 +38,18 @@ const longDateFormat = new Intl.DateTimeFormat('en-US', {
 
 const shortDateFormat = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' })
 
-export const formatLongDate = (date: Date): string => longDateFormat.format(date)
+const formatLongDate = (date: Date): string => longDateFormat.format(date)
 
-export const formatShortDate = (date: Date): string => shortDateFormat.format(date)
+const formatShortDate = (date: Date): string => shortDateFormat.format(date)
+
+export function useDate() {
+  return {
+    startOfDay,
+    today,
+    toIsoDate,
+    parseIsoDate,
+    formatDisplayDate,
+    formatLongDate,
+    formatShortDate,
+  }
+}

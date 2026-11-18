@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import CheckIcon from '@/assets/icons/check.svg?component'
 import CopyIcon from '@/assets/icons/copy.svg?component'
 import CrossIcon from '@/assets/icons/cross.svg?component'
+import { useClipboard } from '../../composables/Clipboard.composable.ts'
 
 const props = withDefaults(
   defineProps<{
@@ -12,13 +13,8 @@ const props = withDefaults(
   { label: 'Copy' },
 )
 
-type CopyStatus = 'idle' | 'copied' | 'error'
-
-const FEEDBACK_DURATION_MS = 2000
-
-const status = ref<CopyStatus>('idle')
+const { status, copy, reset } = useClipboard()
 const feedbackId = ref(0)
-let resetTimer: ReturnType<typeof setTimeout> | undefined
 
 const statusLabel = computed(() => {
   if (status.value === 'copied') return 'Copied'
@@ -26,41 +22,12 @@ const statusLabel = computed(() => {
   return ''
 })
 
-const clearResetTimer = () => {
-  if (resetTimer !== undefined) {
-    clearTimeout(resetTimer)
-    resetTimer = undefined
-  }
-}
-
-const showFeedback = (next: Exclude<CopyStatus, 'idle'>) => {
-  clearResetTimer()
-  status.value = next
+const copyText = async () => {
+  await copy(props.text)
   feedbackId.value++
-  resetTimer = setTimeout(() => {
-    status.value = 'idle'
-    resetTimer = undefined
-  }, FEEDBACK_DURATION_MS)
 }
 
-const copy = async () => {
-  try {
-    await navigator.clipboard.writeText(props.text)
-    showFeedback('copied')
-  } catch {
-    showFeedback('error')
-  }
-}
-
-watch(
-  () => props.text,
-  () => {
-    clearResetTimer()
-    status.value = 'idle'
-  },
-)
-
-onBeforeUnmount(clearResetTimer)
+watch(() => props.text, reset)
 </script>
 
 <template>
@@ -72,7 +39,7 @@ onBeforeUnmount(clearResetTimer)
       'copy-button--error': status === 'error',
     }"
     :aria-label="statusLabel || label"
-    @click="copy"
+    @click="copyText"
   >
     <CheckIcon
       v-if="status === 'copied'"
