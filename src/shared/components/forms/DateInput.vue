@@ -104,6 +104,9 @@ const onNativeChange = (event: Event) => {
   font: inherit;
   font-size: var(--font-size-base);
   color: var(--color-text);
+  cursor: pointer;
+  caret-color: transparent;
+  user-select: none;
   outline: none;
   transition:
     border-color 0.15s ease,
