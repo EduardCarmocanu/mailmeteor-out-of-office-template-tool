@@ -130,6 +130,15 @@ describe('MessageEditorControls', () => {
       expect(items[2]!.text()).toBe('Configure in Outlook')
     })
 
+    it.each([
+      ['Configure in Gmail', 'https://mailmeteor.com/blog/gmail-out-of-office'],
+      ['Configure in Outlook', 'https://mailmeteor.com/blog/out-of-office-outlook'],
+    ])('points "%s" to %s', (text, href) => {
+      const wrapper = mountMessageEditorControls()
+
+      expect(findLink(wrapper, text).attributes('href')).toBe(href)
+    })
+
     it.each(['Configure in Gmail', 'Configure in Outlook'])(
       'prevents navigation when "%s" is clicked',
       (text) => {

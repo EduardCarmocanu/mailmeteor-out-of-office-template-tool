@@ -19,10 +19,20 @@ const emit = defineEmits<{
       </button>
     </li>
     <li>
-      <a class="message-editor-controls__link" href="#" @click.prevent>Configure in Gmail</a>
+      <a
+        class="message-editor-controls__link"
+        href="https://mailmeteor.com/blog/gmail-out-of-office"
+        @click.prevent
+        >Configure in Gmail</a
+      >
     </li>
     <li>
-      <a class="message-editor-controls__link" href="#" @click.prevent>Configure in Outlook</a>
+      <a
+        class="message-editor-controls__link"
+        href="https://mailmeteor.com/blog/out-of-office-outlook"
+        @click.prevent
+        >Configure in Outlook</a
+      >
     </li>
   </ul>
 </template>
