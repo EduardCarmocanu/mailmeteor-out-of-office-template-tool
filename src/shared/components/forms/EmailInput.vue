@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, useId } from 'vue'
+import { useEmail } from '../../composables/Email.composable.ts'
 import InputLabel from './InputLabel.vue'
 
 defineProps<{
@@ -10,7 +11,7 @@ defineProps<{
 
 const model = defineModel<string>({ default: '' })
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const { isValidEmail } = useEmail()
 
 const id = useId()
 const errorId = useId()
@@ -23,7 +24,7 @@ const validate = () => {
   lastValidatedValue = model.value
 
   const value = model.value.trim()
-  showError.value = value !== '' && !EMAIL_REGEX.test(value)
+  showError.value = value !== '' && !isValidEmail(value)
 }
 </script>
 

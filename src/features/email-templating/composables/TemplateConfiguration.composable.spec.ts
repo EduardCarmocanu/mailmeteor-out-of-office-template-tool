@@ -381,17 +381,18 @@ describe('useTemplateConfiguration', () => {
 
       it('accepts text values of exactly 100 characters', async () => {
         const maxLengthText = 'a'.repeat(100)
+        const maxLengthEmail = `${'a'.repeat(88)}@company.com`
         await loadComposable({
           name: maxLengthText,
           backupName: maxLengthText,
-          backupEmail: maxLengthText,
+          backupEmail: maxLengthEmail,
         })
 
         const { templateConfiguration } = useTemplateConfiguration()
 
         expect(templateConfiguration.value.name).toBe(maxLengthText)
         expect(templateConfiguration.value.backupName).toBe(maxLengthText)
-        expect(templateConfiguration.value.backupEmail).toBe(maxLengthText)
+        expect(templateConfiguration.value.backupEmail).toBe(maxLengthEmail)
       })
 
       it('ignores text values longer than 100 characters', async () => {
@@ -399,13 +400,31 @@ describe('useTemplateConfiguration', () => {
         await loadComposable({
           name: tooLongText,
           backupName: tooLongText,
-          backupEmail: tooLongText,
+          backupEmail: `${'a'.repeat(89)}@company.com`,
         })
 
         const { templateConfiguration } = useTemplateConfiguration()
 
         expect(templateConfiguration.value.name).toBe('')
         expect(templateConfiguration.value.backupName).toBe('')
+        expect(templateConfiguration.value.backupEmail).toBe('')
+      })
+
+      it.each(['sam', 'sam@company', 'sam patel@company.com', ' sam@company.com'])(
+        'ignores the invalid backup email "%s"',
+        async (backupEmail) => {
+          await loadComposable({ backupEmail })
+
+          expect(useTemplateConfiguration().templateConfiguration.value.backupEmail).toBe('')
+        },
+      )
+
+      it('keeps the backup name when the backup email is invalid', async () => {
+        await loadComposable({ backupName: 'Sam Patel', backupEmail: 'not-an-email' })
+
+        const { templateConfiguration } = useTemplateConfiguration()
+
+        expect(templateConfiguration.value.backupName).toBe('Sam Patel')
         expect(templateConfiguration.value.backupEmail).toBe('')
       })
 

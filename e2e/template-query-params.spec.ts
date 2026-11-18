@@ -83,10 +83,14 @@ test.describe('Template query parameters', () => {
   })
 
   test('falls back to the defaults for invalid query parameters', async ({ page }) => {
-    await page.goto('/?tone=rude&reason=sabbatical&leaveStart=2026-02-30&utm_source=newsletter')
+    await page.goto(
+      '/?tone=rude&reason=sabbatical&leaveStart=2026-02-30&backupEmail=not-an-email&utm_source=newsletter',
+    )
 
     await expect(toneGroup(page).getByRole('radio', { name: 'Formal' })).toBeChecked()
     await expect(leaveStartField(page)).toHaveValue('')
+    await expandAdvancedOptions(page)
+    await expect(backupEmailField(page)).toHaveValue('')
     await expect
       .poll(() => currentQueryParams(page))
       .toEqual({ tone: 'formal', reason: 'vacation', utm_source: 'newsletter' })

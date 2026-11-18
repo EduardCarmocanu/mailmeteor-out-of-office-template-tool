@@ -17,8 +17,10 @@ export interface TemplateValues {
   leaveEnd: string
   leaveEndShort: string | null
   reasonPhrase: string
-  backup: { name: string; email: string | null } | null
+  backup: Backup | null
 }
+
+type Backup = { name: string; email: string | null } | { name: null; email: string }
 
 const NAME_PLACEHOLDER = '[Your name]'
 const LEAVE_START_PLACEHOLDER = '[first day away]'
@@ -33,9 +35,16 @@ const REASON_PHRASES: Record<Reason, string> = {
   'parental-leave': 'on parental leave',
 }
 
+function toBackup(config: TemplateConfiguration): Backup | null {
+  const name = config.backupName.trim()
+  const email = config.backupEmail.trim() || null
+
+  if (name) return { name, email }
+  if (email) return { name: null, email }
+  return null
+}
+
 export function toTemplateValues(config: TemplateConfiguration): TemplateValues {
-  const backupName = config.backupName.trim()
-  const backupEmail = config.backupEmail.trim()
 
   return {
     name: config.name.trim() || NAME_PLACEHOLDER,
@@ -43,12 +52,14 @@ export function toTemplateValues(config: TemplateConfiguration): TemplateValues 
     leaveEnd: config.leaveEnd ? formatLongDate(config.leaveEnd) : LEAVE_END_PLACEHOLDER,
     leaveEndShort: config.leaveEnd ? formatShortDate(config.leaveEnd) : null,
     reasonPhrase: REASON_PHRASES[config.reason],
-    backup: backupName ? { name: backupName, email: backupEmail || null } : null,
+    backup: toBackup(config),
   }
 }
 
-const formatBackup = ({ name, email }: NonNullable<TemplateValues['backup']>) =>
-  email ? `${name} (${email})` : name
+function formatBackup(backup: Backup): string {
+  if (backup.name === null) return backup.email
+  return backup.email ? `${backup.name} (${backup.email})` : backup.name
+}
 
 const paragraphs = (...parts: (string | null)[]) =>
   parts.filter((part): part is string => part !== null).join('\n\n')

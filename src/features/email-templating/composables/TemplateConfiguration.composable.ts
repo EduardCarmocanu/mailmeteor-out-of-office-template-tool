@@ -1,11 +1,13 @@
 import { ref, watch } from 'vue'
 import { useDate } from '../../../shared/composables/Date.composable.ts'
+import { useEmail } from '../../../shared/composables/Email.composable.ts'
 import { queryParamClient } from '../../../shared/infrastructure/QueryParamClient.ts'
 import { REASONS, type Reason } from '../models/Reason.model.ts'
 import type { TemplateConfiguration } from '../models/TemplateConfiguration.model.ts'
 import { TONES, type Tone } from '../models/Tone.model.ts'
 
 const { parseIsoDate, toIsoDate } = useDate()
+const { isValidEmail } = useEmail()
 
 const isTone = (value: string): value is Tone => (TONES as readonly string[]).includes(value)
 
@@ -22,7 +24,9 @@ function readConfigurationFromQueryParams(): Partial<TemplateConfiguration> {
 
   if (isValidText(params.name)) configuration.name = params.name
   if (isValidText(params.backupName)) configuration.backupName = params.backupName
-  if (isValidText(params.backupEmail)) configuration.backupEmail = params.backupEmail
+  if (isValidText(params.backupEmail) && isValidEmail(params.backupEmail)) {
+    configuration.backupEmail = params.backupEmail
+  }
 
   const leaveStart = params.leaveStart ? parseIsoDate(params.leaveStart) : null
   if (leaveStart) configuration.leaveStart = leaveStart

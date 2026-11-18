@@ -103,14 +103,16 @@ describe('toTemplateValues', () => {
       expect(values.backup).toEqual({ name: 'Sam Patel', email: null })
     })
 
-    it('omits the backup when the backup name is empty', () => {
-      expect(toTemplateValues(makeConfiguration({ backupName: '' })).backup).toBeNull()
-    })
-
-    it('omits the backup when only a backup email is given', () => {
+    it('sets the name to null when only a backup email is given', () => {
       const values = toTemplateValues(
         makeConfiguration({ backupName: '   ', backupEmail: 'sam@company.com' }),
       )
+
+      expect(values.backup).toEqual({ name: null, email: 'sam@company.com' })
+    })
+
+    it('omits the backup when neither a backup name nor email is given', () => {
+      const values = toTemplateValues(makeConfiguration({ backupName: ' ', backupEmail: ' ' }))
 
       expect(values.backup).toBeNull()
     })
@@ -142,6 +144,14 @@ describe('BASE_TEMPLATES', () => {
       )
 
       expect(body).toContain('For urgent matters, please contact Sam Patel.')
+    })
+
+    it('mentions only the backup email when there is no backup name', () => {
+      const { body } = BASE_TEMPLATES.formal(
+        makeValues({ backup: { name: null, email: 'sam@company.com' } }),
+      )
+
+      expect(body).toContain('For urgent matters, please contact sam@company.com.')
     })
 
     it('leaves out the backup paragraph when there is no backup', () => {
@@ -443,7 +453,7 @@ describe('useTemplateContent', () => {
       expect(body.value).toContain('from [first day away] and will be back on [back on]')
     })
 
-    it('adds and removes the backup paragraph as the backup name changes', async () => {
+    it('adds and removes the backup paragraph as the backup contact changes', async () => {
       const { configuration, body } = setup({ backupName: '', backupEmail: '' })
       expect(body.value).not.toContain('For urgent matters')
 
@@ -458,6 +468,10 @@ describe('useTemplateContent', () => {
       )
 
       configuration.backupName = ''
+      await nextTick()
+      expect(body.value).toContain('For urgent matters, please contact sam@company.com.')
+
+      configuration.backupEmail = ''
       await nextTick()
       expect(body.value).not.toContain('For urgent matters')
     })
@@ -479,7 +493,7 @@ describe('useTemplateContent', () => {
       const { configuration, subject, isEdited } = setup({ backupName: '', backupEmail: '' })
 
       subject.value = 'Custom subject'
-      configuration.backupEmail = 'sam@company.com'
+      configuration.backupName = '   '
       await nextTick()
 
       expect(subject.value).toBe('Out of office until Jan 4')
