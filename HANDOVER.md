@@ -129,9 +129,9 @@ flowchart TD
     ClipboardClient --> Navigator
 ```
 
-- The configurator form binds each field straight the shared templateConfiguration state declared in [TemplateConfiguration.composable.ts](src/features/email-templating/composables/TemplateConfiguration.composable.ts). This configuration state is used to build up the template and update the template when it changes.
+- The configurator form binds each field straight to the shared templateConfiguration state declared in [TemplateConfiguration.composable.ts](src/features/email-templating/composables/TemplateConfiguration.composable.ts). This configuration state is used to build up the template and update the template when it changes.
 - The `MessageTemplateEditor` passes the `templateConfiguration` ref to `useTemplateContent` which computes the template and copies it into the editable `subject` and `body` refs.
-- The preset panels apply partial template configurations by calling the `applyPreset` function.
+- The preset panels apply partial template configurations by calling the `applyConfiguration` function.
 - In the case where the user has edited the generated template, any change to the configuration will reset the template to the non edited version.
 
 ### How templates are built
@@ -139,17 +139,6 @@ flowchart TD
 Messages are generated in [TemplateContent.composable.ts](src/features/email-templating/composables/TemplateContent.composable.ts) in two steps:
 
 1. **`toTemplateValues(config)`** turns the raw configuration into strings that are ready to insert:
-
-   | Value           | Filled                                           | Empty              |
-   | --------------- | ------------------------------------------------ | ------------------ |
-   | `name`          | trimmed name                                     | `[Your name]`      |
-   | `leaveStart`    | long date, e.g. "Monday, December 21"            | `[first day away]` |
-   | `leaveEnd`      | long date                                        | `[back on]`        |
-   | `leaveEndShort` | short date for the subject, e.g. "Dec 21"        | `null`             |
-   | `reasonPhrase`  | from `REASON_PHRASES`, e.g. "on a business trip" | (always set)       |
-   | `backup`        | `{ name, email }`, `email` is `null` if empty    | `null`             |
-
-   The backup contact is only used when a name is given. An email without a name is ignored.
 
 2. Calling **`BASE_TEMPLATES[tone](values)`** returns `{ subject, body }` which are used to display the template text directly. `BASE_TEMPLATES` has one function per tone (`formal`, `friendly`, `funny`, `short`), written as template literals.
 
@@ -187,6 +176,22 @@ When to add a token:
 All shared components are feature-agnostic and are supposed to be part of a design system. For this project building a design system was considered out of scope.
 
 ## Testing and quality
+
+### Linting
+
+Linting runs two tools one after the other:
+
+- **oxlint** ([.oxlintrc.json](.oxlintrc.json)) runs first because it is fast. It reports the `correctness` category as errors, with the ESLint, TypeScript, unicorn, oxc, Vue and Vitest plugins enabled.
+- **ESLint** ([eslint.config.ts](eslint.config.ts)) runs second and adds the Vue (`flat/essential`) and TypeScript (`recommended`) rules, the Vitest rules for `src/**/*.spec.ts` and the Playwright rules for `e2e/`. `eslint-plugin-oxlint` turns off the rules oxlint already covers, and `eslint-config-prettier` turns off the formatting rules so Prettier handles formatting.
+
+```sh
+pnpm lint                  # oxlint then ESLint, both with --fix (changes files)
+pnpm lint:oxlint           # oxlint only, with --fix
+pnpm lint:eslint           # ESLint only, with --fix and --cache
+pnpm exec oxlint .         # check only, no changes
+pnpm exec eslint .         # check only, no changes
+pnpm exec eslint src/App.vue  # one file
+```
 
 ### Unit tests
 
@@ -240,17 +245,14 @@ pnpm test:e2e --ui                                 # interactive UI mode
 pnpm test:e2e --debug                              # step through with the inspector
 ```
 
-### Lint, format and type-check
+### Format and type-check
 
 | Command           | What it does                                                                                                             |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `pnpm lint`       | Runs oxlint, then ESLint. Both run with `--fix`, so they change files.                                                   |
 | `pnpm format`     | Runs Prettier on `src/` only (no semicolons, single quotes, 100-column lines, see [.prettierrc.json](.prettierrc.json)). |
 | `pnpm type-check` | Runs `vue-tsc --build`. `pnpm build` runs it too.                                                                        |
 
-- **oxlint** ([.oxlintrc.json](.oxlintrc.json)) is fast and runs first, with the `correctness` category as errors.
-- **ESLint** ([eslint.config.ts](eslint.config.ts)) adds the Vue and TypeScript rules, the Vitest rules for `src/**/*.spec.ts` and the Playwright rules for `e2e/`. `eslint-plugin-oxlint` turns off the rules oxlint already covers, and `eslint-config-prettier` turns off the formatting rules.
-- [.editorconfig](.editorconfig) sets 2-space indentation, LF line endings and a final newline.
+[.editorconfig](.editorconfig) sets 2-space indentation, LF line endings and a final newline.
 
 ### Recommended VS Code extensions
 
