@@ -45,15 +45,9 @@ e2e/                         # Playwright specs, one per user flow
 
 Rules to keep the structure consistent:
 
-- `src/shared/` must never import from `src/features/`. If a component needs a feature's models or composables, it belongs in that feature.
+- `src/shared/` must never import from `src/features/`.
 - New features get their own kebab-case folder under `src/features/`, with only the subfolders they need.
 - Unit tests sit next to the file they test, named `<File>.spec.ts`.
-- Naming:
-  - Components: PascalCase (`TemplateConfigurator.vue`).
-  - Pages: `<Name>.page.vue` (`EmailTemplate.page.vue`).
-  - Composables: `<Name>.composable.ts`, exporting a `use<Name>` function (`TemplateConfiguration.composable.ts`).
-  - Models: `<Name>.model.ts`, one main type per file (`Tone.model.ts`).
-  - Infrastructure: PascalCase, named after what the file does, with no required suffix (`ClipboardClient.ts`, `AnalyticsService.ts`, `DraftStore.ts`).
 
 The full conventions, including import rules, are in [CLAUDE.md](CLAUDE.md).
 
@@ -61,19 +55,22 @@ The full conventions, including import rules, are in [CLAUDE.md](CLAUDE.md).
 
 Each kind of file has one job. Code calls downwards only: pages and components → composables → infrastructure → outside world. Models can be used anywhere.
 
-- **Page** (`pages/<Name>.page.vue`): the top-level view of a feature, rendered by `App.vue`. A page lays out the feature's components and holds little or no logic of its own. Example: [EmailTemplate.page.vue](src/features/email-templating/pages/EmailTemplate.page.vue).
-- **Component** (`components/<Name>.vue`): a reusable piece of UI. It gets data through props and composables and reports user actions through events. It never calls infrastructure or browser APIs directly. Feature components such as [ToneSelector.vue](src/features/email-templating/components/ToneSelector.vue) can use that feature's models and composables. Shared components such as [TextInput.vue](src/shared/components/forms/TextInput.vue) know nothing about any feature.
-- **Composable** (`composables/<Name>.composable.ts`): state and logic, exported as a `use<Name>` function. Components call composables, and composables call infrastructure whenever they need something outside the app. Composables never import components. Examples: [TemplateConfiguration.composable.ts](src/features/email-templating/composables/TemplateConfiguration.composable.ts) holds the shared configuration state, and [Clipboard.composable.ts](src/shared/composables/Clipboard.composable.ts) wraps copying with "copied" and "error" feedback.
-- **Model** (`models/<Name>.model.ts`): TypeScript types and interfaces, one main type per file, with no runtime behaviour. Example: [Tone.model.ts](src/features/email-templating/models/Tone.model.ts).
-- **Infrastructure** (`infrastructure/<Name>.ts`): the only code that leaves the app, such as HTTP calls, `localStorage` or browser services like `navigator.clipboard`. A file is named after what it does, such as a client, service, store or configuration, and exposes small, typed functions with no Vue reactivity or UI logic. Example: [ClipboardClient.ts](src/shared/infrastructure/ClipboardClient.ts).
-
-In unit tests, mock infrastructure when testing a composable, and mock composables when a component test needs to test the view on its own.
+#### **Page** (`pages/<Name>.page.vue`): 
+The top-level view of a feature, rendered by `App.vue`. A page lays out the feature's components and holds little or no logic of its own. Example: [EmailTemplate.page.vue](src/features/email-templating/pages/EmailTemplate.page.vue).
+#### **Component** (`components/<Name>.vue`): 
+A reusable piece of UI. It gets data through props and composables and reports user actions through events. It never calls infrastructure or browser APIs directly. Feature components such as [ToneSelector.vue](src/features/email-templating/components/ToneSelector.vue) can use that feature's models and composables. Shared components such as [TextInput.vue](src/shared/components/forms/TextInput.vue) know nothing about any feature.
+#### **Composable** (`composables/<Name>.composable.ts`): 
+State and logic, exported as a `use<Name>` function. Components call composables, and composables call infrastructure whenever they need something outside the app. Composables never import components. Examples: [TemplateConfiguration.composable.ts](src/features/email-templating/composables/TemplateConfiguration.composable.ts) holds the shared configuration state, and [Clipboard.composable.ts](src/shared/composables/Clipboard.composable.ts) wraps copying with "copied" and "error" feedback.
+#### **Model** (`models/<Name>.model.ts`): 
+TypeScript types and interfaces, one main type per file, with no runtime behaviour. Example: [Tone.model.ts](src/features/email-templating/models/Tone.model.ts).
+#### **Infrastructure** (`infrastructure/<Name>.ts`): 
+The only code that leaves the app, such as HTTP calls, `localStorage` or browser services like `navigator.clipboard`. A file is named after what it does, such as a client, service, store or configuration, and exposes small, typed functions with no Vue reactivity or UI logic. Example: [ClipboardClient.ts](src/shared/infrastructure/ClipboardClient.ts).
 
 ## Content and domain
 
 ### Overview
 
-The app has a single page. [App.vue](src/App.vue) renders [EmailTemplate.page.vue](src/features/email-templating/pages/EmailTemplate.page.vue), which lays out three parts:
+The app has a single page, [App.vue](src/App.vue) renders [EmailTemplate.page.vue](src/features/email-templating/pages/EmailTemplate.page.vue), which lays out three parts:
 
 - [TemplateConfigurator.vue](src/features/email-templating/components/TemplateConfigurator.vue) (left column): the form. It has the user's name, the first day away, the return date and the tone. The reason and the backup contact (name and email) sit under "Advanced options".
 - [MessageTemplateEditor.vue](src/features/email-templating/components/MessageTemplateEditor.vue) (right column): the generated subject and body. Both can be edited and copied. Below them, [MessageEditorControls.vue](src/features/email-templating/components/MessageEditorControls.vue) shows a word count, a "Reset" button and the Gmail/Outlook links.
@@ -157,14 +154,6 @@ Messages are generated in [TemplateContent.composable.ts](src/features/email-tem
 
 2. Calling **`BASE_TEMPLATES[tone](values)`** returns `{ subject, body }` which are used to display the template text directly. `BASE_TEMPLATES` has one function per tone (`formal`, `friendly`, `funny`, `short`), written as template literals.
 
-### Locale assumptions
-
-- All text is hardcoded in English
-- The year is never shown in dates.
-- **Dates in the inputs** are shown as `DD/MM/YYYY` so the form uses day-first dates while the message uses US-style dates.
-- **How the date input works.** [DateInput.vue](src/shared/components/forms/DateInput.vue) shows a read-only text field. Clicking it or the calendar button opens a hidden native `<input type="date">` with `showPicker()`. The native input exchanges values as `YYYY-MM-DD`, which `toIsoDate` and `parseIsoDate` convert to and from `Date`.
-- **No time zones.** Dates are local `Date` objects set to midnight local time. "Today" (the earliest date the pickers allow) is the user's local day.
-
 ## UI and styling
 
 ### Design tokens
@@ -177,11 +166,9 @@ When to add a token:
 - If no existing token fits, add one to the right group in `global.css`. Name it after its role (`--color-text-muted`), not its value (`--color-grey-500`).
 - Sizes that belong to a single component stay as plain values in that component, for example the 44px input height or the 28px icon button. Only turn one into a token when a second component needs the same value for the same reason.
 
-### Fonts and page width
+### Fonts
 
 - The font is **Poppins** in weights 400, 500 and 600, loaded from Google Fonts by a `<link>` in [index.html](index.html), with `preconnect` hints. `--font-family-base` falls back to the system font stack if Google Fonts cannot be reached.
-- `global.css` sets the font on `html` and makes `button`, `input`, `select` and `textarea` inherit it (`font: inherit`), because browsers do not do this by default.
-- The page layout is set with inline styles in [index.html](index.html): `<body>` centres its content with flexbox, and the `#app` element has `max-width: 1000px`. This is the only place the page width is set and it's only for presentational purposes.
 
 ### Icons
 
@@ -192,7 +179,7 @@ When to add a token:
   import CopyIcon from '@/assets/icons/copy.svg?component'
   ```
 
-- The loader is set up in [vite.config.ts](vite.config.ts). It runs SVGO with `removeViewBox` turned off so icons keep their `viewBox` and can be resized with CSS. The types come from the `vite-svg-loader` reference in [env.d.ts](env.d.ts).
+- The loader is set up in [vite.config.ts](vite.config.ts).
 - Icons use `currentColor` for fill and stroke, so they take the text color of their parent. Set `color` on the parent rather than editing the SVG.
 - To add an icon, export it from your design tool, replace the hard-coded colors with `currentColor`, and save it in `src/assets/icons/` with a kebab-case name.
 
@@ -204,9 +191,9 @@ All shared components are feature-agnostic and are supposed to be part of a desi
 
 ### Unit tests
 
-Unit tests use Vitest with jsdom and `@vue/test-utils`, configured in [vitest.config.ts](vitest.config.ts). The config reuses the Vite config, so the `@/` alias and `?component` SVG imports work in tests. `e2e/` is excluded.
+Unit tests use Vitest with jsdom and `@vue/test-utils`, configured in [vitest.config.ts](vitest.config.ts).
 
-- Every component, composable and client has a `<File>.spec.ts` next to it. There are no `__tests__/` folders.
+- Every component, composable and client has a `<File>.spec.ts` next to it.
 - In terms of conventions: `describe` names the unit under test, and each `it` states one behaviour, e.g. `it('writes the text through the clipboard client', ...)`.
 
 Unit testing commands:
@@ -241,10 +228,6 @@ Playwright starts the app itself:
 - `expandAdvancedOptions` opens the collapsible section.
 
 Add new locators there, not in individual specs.
-
-#### Pinned clock
-
-Specs call `page.clock.setFixedTime(PINNED_TODAY)` (17 November 2026) in `beforeEach`. Do not remove it: the date pickers refuse dates before today, so the fixed leave dates would fail once the real date passes them.
 
 #### Reports
 
@@ -288,6 +271,13 @@ VS Code offers to install these when you open the project ([.vscode/extensions.j
 - **Responsive layout**: The page was built for desktop widths only and has no media queries, so it is not adapted to tablets or phones.
 - **CI/CD**: The repository has no pipeline, so linting, type-checking, tests and deployment are all run by hand.
 - **Mailmeteor integration**: The tool has been built as a standalone Vite app and the correct way of integrating it on the mailmeteor tools remains to be determined. Options to integrations are either rebuilding for the website, attaching to shadow dom or using an iframe on the host website.
+- **Back-end**: No back-end server requirements was expressed so for this project this was left out of scope.
+- **Multi locale support**: All text is in english and date formats use a single `DD/MM/YYYY` format everywhere
+
+## Choices:
+
+- **Hardcoded templates**: For the purpose of the exercise i've decided to hardcode the templates in the application code because the project has a limited of 4 templates and no back-end requirements.
+- **Date inputs**: For simplicity i've decided to not allow users to manually input date values and instead rely on the native browser date picker.
 
 ## Potential improvements
 
