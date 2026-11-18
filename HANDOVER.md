@@ -287,7 +287,7 @@ VS Code offers to install these when you open the project ([.vscode/extensions.j
 - **Persistence**: The configuration and any manual edits only live in memory, so everything is lost when the page is reloaded.
 - **Responsive layout**: The page was built for desktop widths only and has no media queries, so it is not adapted to tablets or phones.
 - **CI/CD**: The repository has no pipeline, so linting, type-checking, tests and deployment are all run by hand.
-- **Mailmeteor integration**: The tool has been built as a standalone Vite app and the correct way of integrating it on the mailmeteor tools remains to be determined
+- **Mailmeteor integration**: The tool has been built as a standalone Vite app and the correct way of integrating it on the mailmeteor tools remains to be determined. Options to integrations are either rebuilding for the website, attaching to shadow dom or using an iframe on the host website.
 
 ## Potential improvements
 
