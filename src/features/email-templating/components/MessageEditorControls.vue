@@ -22,7 +22,8 @@ const emit = defineEmits<{
       <a
         class="message-editor-controls__link"
         href="https://mailmeteor.com/blog/gmail-out-of-office"
-        @click.prevent
+        target="_blank"
+        rel="noopener noreferrer"
         >Configure in Gmail</a
       >
     </li>
@@ -30,7 +31,8 @@ const emit = defineEmits<{
       <a
         class="message-editor-controls__link"
         href="https://mailmeteor.com/blog/out-of-office-outlook"
-        @click.prevent
+        target="_blank"
+        rel="noopener noreferrer"
         >Configure in Outlook</a
       >
     </li>

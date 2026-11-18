@@ -20,12 +20,6 @@ function findLink(wrapper: ReturnType<typeof mountMessageEditorControls>, text: 
   return link
 }
 
-function dispatchCancelableClick(element: Element) {
-  const event = new MouseEvent('click', { bubbles: true, cancelable: true })
-  element.dispatchEvent(event)
-  return event
-}
-
 describe('MessageEditorControls', () => {
   describe('word count', () => {
     it('renders the word count as the first item', () => {
@@ -139,16 +133,13 @@ describe('MessageEditorControls', () => {
       expect(findLink(wrapper, text).attributes('href')).toBe(href)
     })
 
-    it.each(['Configure in Gmail', 'Configure in Outlook'])(
-      'prevents navigation when "%s" is clicked',
-      (text) => {
-        const wrapper = mountMessageEditorControls()
+    it.each(['Configure in Gmail', 'Configure in Outlook'])('opens "%s" in a new tab', (text) => {
+      const wrapper = mountMessageEditorControls()
 
-        const event = dispatchCancelableClick(findLink(wrapper, text).element)
-
-        expect(event.defaultPrevented).toBe(true)
-      },
-    )
+      const link = findLink(wrapper, text)
+      expect(link.attributes('target')).toBe('_blank')
+      expect(link.attributes('rel')).toBe('noopener noreferrer')
+    })
 
     it('does not emit reset when a setup link is clicked', async () => {
       const wrapper = mountMessageEditorControls({ edited: true })
