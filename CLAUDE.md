@@ -13,24 +13,45 @@ src/
 │       ├── pages/           # top-level page components (`<Name>Page.vue`)
 │       ├── components/      # components used only by this feature
 │       ├── composables/     # feature state and logic (`<Name>.composable.ts`)
+│       ├── infrastructure/  # access to anything outside the app (`<Name>Client.ts`)
 │       └── models/          # types and interfaces (`<Name>.model.ts`)
 └── shared/
     ├── components/          # generic, feature-agnostic UI components
-    └── utils/               # pure helper functions (e.g. date.ts)
+    ├── composables/         # generic, feature-agnostic composables
+    └── infrastructure/      # generic access to the outside world (e.g. ClipboardClient.ts)
 e2e/                         # Playwright E2E specs, named after the user flow
 ```
 
 - Code specific to one feature goes under `src/features/<feature-name>/`. Move code to `src/shared/` only when it is generic and has no knowledge of any feature's models or composables.
 - `src/shared/` must never import from `src/features/`.
-- Only create the subfolders (`pages/`, `components/`, `composables/`, `models/`) a feature actually needs.
+- Only create the subfolders (`pages/`, `components/`, `composables/`, `infrastructure/`, `models/`) a feature actually needs.
 - File naming:
   - Vue components: PascalCase (`TemplateConfigurator.vue`). Pages end with `Page`.
   - Composables: PascalCase with `.composable.ts` suffix (`TemplateConfiguration.composable.ts`), exporting a `use<Name>` function.
   - Models: PascalCase with `.model.ts` suffix (`TemplateConfiguration.model.ts`), one main type per file.
-  - Utils: lowercase, named by domain (`date.ts`).
-- Imports:
+  - Infrastructure: PascalCase with a `Client` suffix (`ClipboardClient.ts`), named after the external system it wraps.- Imports:
   - Use relative paths within `src/` and include the `.ts` extension for TypeScript files (`'../models/Tone.model.ts'`).
   - Use the `@/` alias for assets (`'@/assets/icons/check.svg?component'`).
+
+## Layering
+
+Code is split into three layers, and each layer only calls the one directly below it:
+
+```
+View components (pages/, components/)
+        ↓
+Composables (composables/)
+        ↓
+Infrastructure (infrastructure/)
+        ↓
+Outside world (HTTP APIs, storage, browser APIs, ...)
+```
+
+- View components (pages and components) call composables for state, logic and side effects. They never call infrastructure or anything outside the app directly.
+- Composables hold state and logic and call infrastructure when they need anything outside the app. They do not import view components.
+- Infrastructure is any code that leaves the application: HTTP clients, `fetch`, persistent stores such as `localStorage`, `sessionStorage` or IndexedDB, and browser services such as `navigator.clipboard`, `window.location` or notifications. Infrastructure exposes small, typed functions and contains no Vue reactivity or UI logic.
+- Models can be used by any layer.
+- In unit tests, mock infrastructure when testing composables, and mock composables when a component test needs to isolate the view.
 
 ## Code style
 
