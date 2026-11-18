@@ -6,6 +6,10 @@ This document contains handover information for the people receiving the project
 
 This is a mailmeteor tool that helps you write Out of office emails based on a set of predefined templates.
 
+## Demo
+
+![Demo of the out of office template tool](docs/demo.gif)
+
 ## Getting started
 
 When starting on this project please refer to the [README.md](README.md) file, which contains instructions on how to setup and start working on this project.
