@@ -55,16 +55,15 @@ The full conventions, including import rules, are in [CLAUDE.md](CLAUDE.md).
 
 Each kind of file has one job. Code calls downwards only: pages and components → composables → infrastructure → outside world. Models can be used anywhere.
 
-#### **Page** (`pages/<Name>.page.vue`): 
-The top-level view of a feature, rendered by `App.vue`. A page lays out the feature's components and holds little or no logic of its own. Example: [EmailTemplate.page.vue](src/features/email-templating/pages/EmailTemplate.page.vue).
-#### **Component** (`components/<Name>.vue`): 
-A reusable piece of UI. It gets data through props and composables and reports user actions through events. It never calls infrastructure or browser APIs directly. Feature components such as [ToneSelector.vue](src/features/email-templating/components/ToneSelector.vue) can use that feature's models and composables. Shared components such as [TextInput.vue](src/shared/components/forms/TextInput.vue) know nothing about any feature.
-#### **Composable** (`composables/<Name>.composable.ts`): 
-State and logic, exported as a `use<Name>` function. Components call composables, and composables call infrastructure whenever they need something outside the app. Composables never import components. Examples: [TemplateConfiguration.composable.ts](src/features/email-templating/composables/TemplateConfiguration.composable.ts) holds the shared configuration state, and [Clipboard.composable.ts](src/shared/composables/Clipboard.composable.ts) wraps copying with "copied" and "error" feedback.
-#### **Model** (`models/<Name>.model.ts`): 
-TypeScript types and interfaces, one main type per file, with no runtime behaviour. Example: [Tone.model.ts](src/features/email-templating/models/Tone.model.ts).
-#### **Infrastructure** (`infrastructure/<Name>.ts`): 
-The only code that leaves the app, such as HTTP calls, `localStorage` or browser services like `navigator.clipboard`. A file is named after what it does, such as a client, service, store or configuration, and exposes small, typed functions with no Vue reactivity or UI logic. Example: [ClipboardClient.ts](src/shared/infrastructure/ClipboardClient.ts).
+- **Page** (`pages/<Name>.page.vue`): The top-level view of a feature, rendered by `App.vue`. A page lays out the feature's components and holds little or no logic of its own. Pages are also mean to be registered with an application router.
+
+- **Component** (`components/<Name>.vue`): A reusable piece of UI. It gets data through props and composables and reports user actions through events. It never calls infrastructure or browser APIs directly. Feature components such as [ToneSelector.vue](src/features/email-templating/components/ToneSelector.vue) can use that feature's models and composables. Shared components such as [TextInput.vue](src/shared/components/forms/TextInput.vue) know nothing about any feature.
+
+- **Composable** (`composables/<Name>.composable.ts`): State and logic, exported as a `use<Name>` function. Components call composables, and composables call infrastructure whenever they need something outside the app.
+
+- **Model** (`models/<Name>.model.ts`): TypeScript types and interfaces, one main type per file, with no runtime behaviour. Example: [Tone.model.ts](src/features/email-templating/models/Tone.model.ts).
+
+- **Infrastructure** (`infrastructure/<Name>.ts`): The only code that leaves the app, such as HTTP calls, `localStorage` or browser services like `navigator.clipboard`. A file is named after what it does, such as a client, service, store or configuration, and exposes small, typed functions with no Vue reactivity or UI logic.
 
 ## Content and domain
 
