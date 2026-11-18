@@ -283,9 +283,9 @@ VS Code offers to install these when you open the project ([.vscode/extensions.j
 
 ## Potential improvements
 
-- **E2E folder structure**: The specs sit flat in `e2e/` with a single helper file, which is enough for two specs but should be split into page objects and fixtures as the suite grows.
+- **E2E folder structure**: The specs sit flat in `e2e/` with a single helper file, which is enough for a small project but should be split into page objects and fixtures as the suite grows.
 - **Typed date input**: Depending on user feedback, the read-only date fields could also accept typed dates instead of only opening the native picker.
 - **Multi-language support**: All text and date formats are hardcoded in English, so moving them into translation files would let the tool serve users in other languages.
-- **Custom templates**: Users could create and save their own templates next to the four built-in tones, which would first need the persistence listed as out of scope.
-- **CI/CD**: A pipeline that runs linting, type-checking, unit tests and E2E tests on every push would catch regressions before merging, and Playwright is already configured for a `CI` environment.
+- **Custom templates**: Users could create and save their own templates next to the four built-in tones which would first need the persistence
+- **CI/CD**: A pipeline that runs linting, type-checking, unit tests and E2E tests on every push would catch regressions before merging / deploying.
 - **UX analytics**: Tracking how people use the tool, such as which tones and presets they pick and how often they edit or copy the message, would show which improvements to prioritise.
